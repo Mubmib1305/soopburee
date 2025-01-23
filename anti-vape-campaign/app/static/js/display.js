@@ -83,9 +83,23 @@ class DisplayController {
 
     updateAnatomyColor() {
         const percentage = Math.min(this.messages.length / this.maxMessages, 1);
-        const brightness = 100 - (percentage * 100);
-        const grayscale = percentage * 100;
-        this.anatomyImage.style.filter = `brightness(${brightness}%) grayscale(${grayscale}%)`;
+        const height = 100 * percentage;
+        
+        // สร้าง element ซ้อนกัน
+        const grayImage = this.anatomyImage.cloneNode(true);
+        const normalImage = this.anatomyImage;
+        
+        grayImage.style.filter = 'grayscale(1)';
+        grayImage.style.position = 'absolute';
+        grayImage.style.clipPath = `polygon(0 ${100 - height}%, 100% ${100 - height}%, 100% 100%, 0 100%)`;
+        grayImage.style.zIndex = '1';
+        
+        if (!document.getElementById('grayImage')) {
+            grayImage.id = 'grayImage';
+            normalImage.parentNode.appendChild(grayImage);
+        } else {
+            document.getElementById('grayImage').style.clipPath = `polygon(0 ${100 - height}%, 100% ${100 - height}%, 100% 100%, 0 100%)`;
+        }
     }
 
     updateCounters() {
