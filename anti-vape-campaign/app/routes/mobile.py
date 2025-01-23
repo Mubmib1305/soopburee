@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, url_for, redirect
 from app.utils.db import supabase
 
-mobile_bp = Blueprint('mobile', __name__)
+mobile_bp = Blueprint('mobile', __name__, static_folder='static')
 
 @mobile_bp.route('/')
+def index():
+    return render_template('index.html')
+
 @mobile_bp.route('/mobile')
 def mobile_view():
     return render_template('mobile.html')

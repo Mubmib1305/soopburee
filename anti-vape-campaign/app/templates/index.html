@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index</title>
+    <title>Anti E-Cigarette Campaign</title>
     <style>
         body {
             margin: 0;
@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-    <img src="/image/1.png" alt="ภาพพื้นหลัง">
-    <a href="page2.html" class="start-button">เริ่มต้น</a>
+    <img src="{{ url_for('static', filename='images/1.png') }}" alt="ภาพพื้นหลัง">
+    <a href="{{ url_for('mobile.mobile_view') }}" class="start-button">เริ่มต้น</a>
 </body>
 </html>
