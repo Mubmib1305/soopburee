@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti E-Cigarette Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/display.css') }}">
+</head>
+<body>
+    <div class="pc-frame">
+        <div class="pc-screen">
+            <div class="main-container">
+                <section class="anatomy-section">
+                    <div class="human-anatomy" id="humanAnatomy">
+                        <img src="{{ url_for('static', filename='images/anatomy.png') }}" alt="Human Anatomy" id="anatomyImage">
+                        <div class="warning-count" id="messageCount">0/20</div>
+                    </div>
+                </section>
+
+                <section class="messages-section">
+                    <div class="messages-container">
+                        <div class="scroll-container" id="scrollMessages"></div>
+                    </div>
+                    <div class="total-messages" id="totalMessages">Total Messages: 0</div>
+                </section>
+
+                <section class="sticker-board">
+                    <div class="board-container" id="stickerBoard"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="smokeCanvas"></canvas>
+    <script src="{{ url_for('static', filename='js/smoke_animation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/display.js') }}"></script>
+</body>
+</html>
