@@ -13,16 +13,30 @@
                 <section class="anatomy-section">
                     <div class="human-anatomy" id="humanAnatomy">
                         <img src="{{ url_for('static', filename='images/anatomy.png') }}" alt="Human Anatomy" id="anatomyImage">
+                        <!-- <img src="{{ url_for('static', filename='images/smook1.gif') }}" alt="smook1" id="smook1"> -->
                         <div class="warning-count" id="messageCount">0/20</div>
                     </div>
                 </section>
 
-                <section class="messages-section">
-                    <div class="messages-container">
-                        <div class="scroll-container" id="scrollMessages"></div>
+                <div class="center-column">
+                    <div class="center-column-section">
+                        <div class="status-container">
+                            <h2>QR Code</h2>
+                        </div>
                     </div>
-                    <div class="total-messages" id="totalMessages">Total Messages: 0</div>
-                </section>
+                    <div class="center-column-section">
+                        <div class="info-container">
+                            <h2>Smook Tank</h2>
+                            <canvas id="smokeCanvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="center-column-section">
+                        <div class="messages-container">
+                            <div class="scroll-container" id="scrollMessages"></div>
+                        </div>
+                        <div class="total-messages" id="totalMessages">Total Messages: 0</div>
+                    </div>
+                </div>
 
                 <section class="sticker-board">
                     <div class="board-container" id="stickerBoard"></div>
@@ -32,7 +46,6 @@
     </div>
 
     <canvas id="smokeCanvas"></canvas>
-    <script src="{{ url_for('static', filename='js/smoke_animation.js') }}"></script>
     <script src="{{ url_for('static', filename='js/display.js') }}"></script>
 </body>
 </html>

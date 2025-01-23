@@ -231,8 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new DisplayController();
     
     const canvas = document.getElementById('smokeCanvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const container = document.querySelector('.info-container');
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
     
     const smokeEffect = new EnhancedSmokeEffect(canvas);
     smokeEffect.start();
