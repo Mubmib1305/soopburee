@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อความ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Kanit', sans-serif;
+            color: white;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 22px;
+            line-height: 1.6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .highlight {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 24px;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+    </style>
+</head>
+<body ontouchstart="handleTouch()">
+
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
+    
+    <div class="bg-gradient"></div>
+    <div class="container" onclick="handleClick()">
+        <div class="message fade-in">
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;">
+                <div>บางทีการปล่อยมือ</div>
+                <div>จากสิ่งที่ทำร้ายเรา</div>
+                <div>ก็คือการเริ่มต้นใหม</div>
+                <div>มาดูแลดอกไม้ของคุณ</div>
+                <div>ใหม่อีกครั้งเถอะนะ</div>
+                <div>
+                    <span class="highlight">
+                        ลองนึกถึง<br>
+                        ดอกไม้ที่เปร่งประกาย<br>
+                        ในทุกฤกูกาล
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ตั้งเวลาเปลี่ยนหน้าอัตโนมัติหลัง 5 วินาที
+        const timer = setTimeout(() => {
+            navigateToNextPage();
+        }, 9000);
+
+        // ฟังก์ชันสำหรับการคลิก
+        function handleClick() {
+            clearTimeout(timer);
+            navigateToNextPage();
+        }
+
+        // ฟังก์ชันสำหรับการสัมผัส
+        function handleTouch() {
+            clearTimeout(timer);
+            navigateToNextPage();
+        }
+
+        // ฟังก์ชันนำทางไปหน้าถัดไป
+        function navigateToNextPage() {
+            window.location.href = "{{ url_for('mobile.page5_1_7') }}";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อความ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Kanit', sans-serif;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .message {
+            font-size: 18px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .highlight {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .next-btn {
+            background-color: #ffd700;
+            color: black;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .next-btn:hover {
+            background-color: #ffed4a;
+            transform: scale(1.05);
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
+    <div class="bg-gradient"></div>
+    <div class="container">
+        <div class="message">
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;">
+                <div>ก่อนหน้านี้ คุณได้เลือก</div>
+                <div>ดอกไม้และวิธีการดูแลเรียบร้อยแล้ว</div>
+            </div>
+
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;font-size: 26px;">
+                <div>ดอกไม้นี้</div>
+                <div>เปรียบเสมือน <span class="highlight">ปอด</span> ของคุณ</div>
+                <div>การใส่ <span class="highlight">ปุ๋ยเคมี</span> ก็คล้ายกับการ</div>
+                <div><span class="highlight">สูบหรือไฟฟ้า</span> ที่แม้จะได้ผลด้วย</div>
+                <div>สารเคมี ที่ค่อย ๆ ทำลาย</div>
+                <div>ความบริสุทธิ์ในปอดของคุณ</div>
+            </div>
+        </div>
+        <a href="{{ url_for('mobile.page5_1_3') }}" class="next-btn">ถัดไป</a>
+    </div>
+</body>
+</html>

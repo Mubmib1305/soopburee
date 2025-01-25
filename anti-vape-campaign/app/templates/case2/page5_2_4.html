@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toxic Vape</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container" onclick="handleInteraction()">
+        <video id="toxicVideo" playsinline autoplay muted>
+            <source src="{{ url_for('static', filename='videos/toxicvape.mp4') }}" type="video/mp4">
+            บราวเซอร์ของคุณไม่รองรับการเล่นวิดีโอ
+        </video>
+    </div>
+
+    <script>
+        let navigationTimeout;
+        let hasNavigated = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('toxicVideo');
+            
+            // เมื่อวิดีโอเล่นจบ
+            video.addEventListener('ended', function() {
+                if (!hasNavigated) {
+                    // รอ 1 วินาทีก่อนเปลี่ยนหน้า
+                    navigationTimeout = setTimeout(() => {
+                        navigateToNextPage();
+                    }, 1000);
+                }
+            });
+        });
+
+        // ฟังก์ชันจัดการการโต้ตอบ (คลิกหรือสัมผัส)
+        function handleInteraction() {
+            if (!hasNavigated) {
+                clearTimeout(navigationTimeout);
+                navigateToNextPage();
+            }
+        }
+
+        // ฟังก์ชันนำทางไปหน้าถัดไป
+        function navigateToNextPage() {
+            hasNavigated = true;
+            window.location.href = "{{ url_for('mobile.page5_2_5') }}";
+        }
+
+        // เพิ่ม event listener สำหรับการสัมผัส
+        document.body.addEventListener('touchstart', handleInteraction);
+    </script>
+</body>
+</html>
