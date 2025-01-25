@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ส่งต่อข้อความ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Kanit', sans-serif;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .message-box {
+            background: white;
+            color: black;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .message-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .heart-icon {
+            font-size: 40px;
+            color: #FF4B8C;
+        }
+
+        .home-btn {
+            background-color: #ffd700;
+            color: black;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .home-btn:hover {
+            background-color: #ffed4a;
+            transform: scale(1.05);
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            z-index: -1;
+        }
+
+        /* ไอคอนมือถือหัวใจ */
+        .hand-heart {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .svg-icon {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="container">
+        <div class="message-box">
+            <div class="message-text">
+                ข้อความของคุณถูก<br>
+                ส่งต่อให้กับคนอื่นๆแล้ว<br>
+                ลองมองมุมจอที่นี่สิ
+            </div>
+            <!-- ไอคอนมือถือหัวใจ -->
+            <div class="hand-heart">
+                <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="#FF4B8C" stroke-width="2">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    <rect x="7" y="12" width="10" height="6" rx="1"/>
+                </svg>
+            </div>
+        </div>
+        
+        <a href="{{ url_for('mobile.index') }}" class="home-btn">กลับหน้าแรก</a>
+    </div>
+</body>
+</html>

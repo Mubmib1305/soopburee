@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เลือกประโยคเด็ด</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Kanit', sans-serif;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-label:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .option-label.selected {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #ffd700;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        .option-text {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-left: 10px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #ffd700;
+            color: black;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .submit-btn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:not(:disabled):hover {
+            background-color: #ffed4a;
+            transform: scale(1.02);
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="container">
+        <div class="title">
+            เลือก 1 ประโยคเพื่อ<br>
+            เป็นพลังสำคัญสำหรับคนอื่นๆ<br>
+            บอกให้พวกเขาได้เห็นชัดๆเลย
+        </div>
+
+        <div class="options-container">
+            <label class="option-label">
+                <input type="radio" name="quote" value="1">
+                <span class="option-text">ทุกวันที่เลือกได้เริ่มตั้งแต่วันนี้ แต่ก่อนที่จะสิ้นสุดความพ่ายแพ้</span>
+            </label>
+
+            <label class="option-label">
+                <input type="radio" name="quote" value="2">
+                <span class="option-text">มาพร้อมฝากถึงคนตายกายใจ ทำร้ายใครก็ไม่ดลายตน</span>
+            </label>
+
+            <label class="option-label">
+                <input type="radio" name="quote" value="3">
+                <span class="option-text">บุหรี่ไฟฟ้าก็คือ... ทำลายชีวิตของตนและคนรอบข้าง</span>
+            </label>
+
+            <label class="option-label">
+                <input type="radio" name="quote" value="4">
+                <span class="option-text">เปลี่ยนเวลาสายๆตื่น มาเป็นสายเลือดตกในนะ</span>
+            </label>
+
+            <label class="option-label">
+                <input type="radio" name="quote" value="5">
+                <span class="option-text">การผันตันเป็นเพียงทางพาไปสู่ระยะ รู้ทำการแปลี่ยนแปลง</span>
+            </label>
+
+            <label class="option-label">
+                <input type="radio" name="quote" value="6">
+                <span class="option-text">สูบบุหรี่ไฟฟ้าไม่เท่ กันหรอพี่ก็เก๋า</span>
+            </label>
+
+            <label class="option-label">
+                <input type="radio" name="quote" value="7">
+                <span class="option-text">เลิกสูบ จงเถิด สุขภาพใส่</span>
+            </label>
+        </div>
+
+        <button type="button" onclick="submitChoice()" class="submit-btn" disabled id="submitBtn">เสร็จสิ้น</button>
+    </div>
+
+    <script>
+        let selectedQuoteId = null;
+        let selectedQuoteText = null;
+
+        // จัดการการเลือกตัวเลือก
+        document.querySelectorAll('input[name="quote"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // ลบ class selected จากทุก label
+                document.querySelectorAll('.option-label').forEach(label => {
+                    label.classList.remove('selected');
+                });
+                
+                // เพิ่ม class selected ให้ label ที่ถูกเลือก
+                this.closest('.option-label').classList.add('selected');
+                
+                // เก็บค่าที่เลือก
+                selectedQuoteId = this.value;
+                selectedQuoteText = this.closest('.option-label').querySelector('.option-text').textContent;
+                
+                // เปิดปุ่ม submit
+                document.getElementById('submitBtn').disabled = false;
+            });
+        });
+
+        async function submitChoice() {
+            if (!selectedQuoteId) return;
+
+            try {
+                const response = await fetch('/api/select-quote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        quote_id: selectedQuoteId,
+                        quote_text: selectedQuoteText
+                    })
+                });
+
+                if (response.ok) {
+                    window.location.href = "{{ url_for('mobile.page5_1_11') }}";
+                } else {
+                    alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            }
+        }
+    </script>
+</body>
+</html>

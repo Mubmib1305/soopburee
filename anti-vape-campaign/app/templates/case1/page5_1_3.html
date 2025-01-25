@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชวนสำรวจ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Kanit', sans-serif;
+            color: white;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .message {
+            font-size: 24px;
+            text-align: center;
+            line-height: 1.6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            z-index: -1;
+        }
+
+        /* เพิ่มเอฟเฟกต์การเฟดอินของข้อความ */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body ontouchstart="handleTouch()">
+    <div class="bg-gradient"></div>
+    <div class="container" onclick="handleClick()">
+        <div class="message fade-in">
+            ชวนสำรวจ<br>
+            เรื่องราวนี้
+        </div>
+    </div>
+
+    <script>
+        // ตั้งเวลาเปลี่ยนหน้าอัตโนมัติหลัง 3 วินาที
+        const timer = setTimeout(() => {
+            navigateToNextPage();
+        }, 3000);
+
+        // ฟังก์ชันสำหรับการคลิก
+        function handleClick() {
+            clearTimeout(timer);
+            navigateToNextPage();
+        }
+
+        // ฟังก์ชันสำหรับการสัมผัส
+        function handleTouch() {
+            clearTimeout(timer);
+            navigateToNextPage();
+        }
+
+        // ฟังก์ชันนำทางไปหน้าถัดไป
+        function navigateToNextPage() {
+            window.location.href = "{{ url_for('mobile.page5_1_4') }}";
+        }
+    </script>
+</body>
+</html>

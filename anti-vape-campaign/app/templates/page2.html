@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลงทะเบียนผู้ดูแล</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Kanit', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        input, .select-header {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-family: 'Kanit', sans-serif;
+            color: #000;
+        }
+
+        .submit-btn {
+            background-color: #ffd700;
+            color: black;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+            width: auto;
+            display: inline-block;
+        }
+
+        .submit-btn:hover {
+            background-color: #ffed4a;
+            transform: scale(1.05);
+        }
+
+        /* Custom Select Styles */
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: border-radius 0.3s ease;
+        }
+
+        .select-header.active {
+            border-radius: 25px 25px 0 0;
+        }
+
+        .select-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 0 0 25px 25px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .select-options.show {
+            display: block;
+        }
+
+        .years-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background-color: rgba(240, 240, 240, 0.5);
+            padding: 1px;
+            color: #000;
+        }
+
+        .year-option {
+            padding: 15px 10px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .year-option:hover {
+            background-color: #f8f8f8;
+        }
+
+        .year-option.selected {
+            background-color: #ffd700;
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Scrollbar Styles */
+        .select-options::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .select-options::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .select-options::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .select-options::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .years-grid {
+            position: relative;
+            color: #000;
+        }
+
+        .year-option:nth-child(-n+3) {
+            border-top: none;
+            color: #000;
+        }
+
+        .year-option:nth-last-child(-n+3) {
+            border-bottom: none;
+            color: #000;
+        }
+
+        .year-option:nth-child(3n+1) {
+            border-left: none;
+            color: #000;
+        }
+
+        .year-option:nth-child(3n) {
+            border-right: none;
+            color: #000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .select-options.show {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+                margin-bottom: 25px;
+            }
+
+            .year-option {
+                padding: 12px 8px;
+                font-size: 14px;
+                color: #000;
+            }
+
+            .submit-btn {
+                padding: 10px 25px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
+    
+    <div class="container">
+        <h1>สวัสดี<br>ผู้ดูแลดอกไม้</h1>
+        
+        <form id="registrationForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label>อยากให้เราเรียกคุณว่าอะไรดี</label>
+                <input type="text" id="nickname" name="nickname" required>
+            </div>
+            
+            <div class="form-group">
+                <label>คุณเกิดปีอะไร</label>
+                <div class="custom-select">
+                    <div class="select-header" onclick="toggleYearSelect()">
+                        <span id="selectedYearText">เลือกปีเกิด</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="select-options" id="yearOptions">
+                        <div class="years-grid" id="yearsGrid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">เรียบร้อย</button>
+        </form>
+    </div>
+
+    <script>
+        let selectedYear = null;
+
+        function initYearSelect() {
+            const yearsGrid = document.getElementById('yearsGrid');
+            const currentYear = new Date().getFullYear();
+            const startYear = 1800;
+            const endYear = 2025;
+
+            for (let year = endYear; year >= startYear; year--) {
+                const yearDiv = document.createElement('div');
+                yearDiv.className = 'year-option';
+                yearDiv.textContent = year;
+                yearDiv.onclick = (e) => {
+                    e.stopPropagation();
+                    selectYear(year);
+                };
+                yearsGrid.appendChild(yearDiv);
+            }
+        }
+
+        function toggleYearSelect() {
+            const options = document.getElementById('yearOptions');
+            const header = document.querySelector('.select-header');
+            options.classList.toggle('show');
+            header.classList.toggle('active');
+        }
+
+        function selectYear(year) {
+            selectedYear = year;
+            document.getElementById('selectedYearText').textContent = year;
+
+            document.querySelectorAll('.year-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            const yearElements = document.querySelectorAll('.year-option');
+            yearElements.forEach(element => {
+                if (element.textContent == year) {
+                    element.classList.add('selected');
+                }
+            });
+
+            toggleYearSelect();
+        }
+
+        document.addEventListener('click', (e) => {
+            const select = document.querySelector('.custom-select');
+            const options = document.getElementById('yearOptions');
+            const header = document.querySelector('.select-header');
+            
+            if (!select.contains(e.target) && options.classList.contains('show')) {
+                options.classList.remove('show');
+                header.classList.remove('active');
+            }
+        });
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const nickname = document.getElementById('nickname').value;
+            
+            if (!selectedYear) {
+                alert('กรุณาเลือกปีเกิด');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nickname: nickname,
+                        birth_year: selectedYear
+                    })
+                });
+                
+                if (response.ok) {
+                    window.location.href = "{{ url_for('mobile.page3') }}";
+                } else {
+                    alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initYearSelect);
+    </script>
+</body>
+</html>

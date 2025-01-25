@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกข้อความ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Kanit', sans-serif;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .message-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            background-color: white;
+            font-size: 16px;
+            font-family: 'Kanit', sans-serif;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .message-input:focus {
+            outline: 2px solid #ffd700;
+        }
+
+        .submit-btn {
+            background-color: #ffd700;
+            color: black;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background-color: #ffed4a;
+            transform: scale(1.05);
+        }
+
+        .submit-btn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="container">
+        <div class="title">
+            ดอกไม้นี้เป็นสิ่งของคุณแค่ในที่นี้<br>
+            ที่กำลังตัดสินใจเลือกเส้นทางที่ดีกว่า<br>
+            มีอะไรจะบอกกับตัวคุณแบบไหม
+        </div>
+        
+        <textarea 
+            class="message-input" 
+            id="userMessage" 
+            placeholder="พิมพ์ข้อความของคุณที่นี่..."
+            maxlength="500"
+        ></textarea>
+
+        <button type="button" onclick="submitMessage()" class="submit-btn" id="submitBtn">ถัดไป</button>
+    </div>
+
+    <script>
+        const messageInput = document.getElementById('userMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // ตรวจสอบการพิมพ์ข้อความ
+        messageInput.addEventListener('input', function() {
+            submitBtn.disabled = this.value.trim() === '';
+        });
+
+        async function submitMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            try {
+                const response = await fetch('/api/save-message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                });
+
+                if (response.ok) {
+                    window.location.href = "{{ url_for('mobile.page5_1_8') }}";
+                } else {
+                    alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            }
+        }
+    </script>
+</body>
+</html>

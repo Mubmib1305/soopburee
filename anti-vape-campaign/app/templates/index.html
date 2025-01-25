@@ -5,41 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anti E-Cigarette Campaign</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
+            overflow: hidden; /* ป้องกันการเลื่อนหน้าจอ */
+            position: relative;
+            width: 100vw;
+            height: 100vh;
         }
         
-        img {
-            max-width: 100%;
-            height: auto;
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .background-gif {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* ทำให้ GIF เต็มจอโดยรักษาอัตราส่วน */
+        }
+        
+        .button-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* ทำให้ปุ่มอยู่ด้านหน้า GIF */
         }
         
         .start-button {
-            margin-top: 20px;
-            padding: 10px 30px;
-            font-size: 18px;
+            padding: 15px 40px;
+            font-size: 20px;
             background-color: #ffd700;
             border: none;
             border-radius: 25px;
             cursor: pointer;
             text-decoration: none;
             color: black;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            font-family: 'Kanit', sans-serif; /* เพิ่มฟอนต์ภาษาไทย */
         }
         
         .start-button:hover {
             background-color: #ffed4a;
+            transform: scale(1.05); /* เพิ่มเอฟเฟกต์เมื่อชี้ที่ปุ่ม */
         }
     </style>
 </head>
 <body>
-    <img src="{{ url_for('static', filename='images/1.png') }}" alt="ภาพพื้นหลัง">
-    <a href="{{ url_for('mobile.mobile_view') }}" class="start-button">เริ่มต้น</a>
+    <div class="background-container">
+        <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="ภาพพื้นหลัง" class="background-gif">
+    </div>
+    <div class="button-container">
+        <a href="{{ url_for('mobile.page2') }}" class="start-button">เริ่มต้น</a>
+    </div>
 </body>
 </html>
