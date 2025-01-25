@@ -1,152 +1,167 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แชร์ข้อความ</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>แชร์ข้อความ</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
 
-        body {
-            background-color: #000;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Kanit', sans-serif;
-            color: white;
-        }
+       body {
+           background-color: #000;
+           min-height: 100vh;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           font-family: 'Kanit', sans-serif;
+           color: white;
+       }
 
-        .container {
-            width: 90%;
-            max-width: 400px;
-            padding: 20px;
-            text-align: center;
-        }
+       .container {
+           width: 90%;
+           max-width: 400px;
+           padding: 20px;
+           text-align: center;
+       }
 
-        .title {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+       .title {
+           font-size: 18px;
+           line-height: 1.6;
+           margin-bottom: 20px;
+           text-align: center;
+       }
 
-        .message-card {
-            background: linear-gradient(135deg, #FF69B4, #DA70D6);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
-        }
+       .message-card {
+           background: linear-gradient(135deg, #FF69B4, #DA70D6);
+           padding: 20px;
+           margin: 20px 0;
+           position: relative;
+           overflow: hidden;
+           display: flex;
+           align-items: center;
+       }
 
-        .message-card::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 30%;
-            height: 100%;
-            background-image: url("{{ url_for('static', filename='images/orchid.png') }}");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: right center;
-            opacity: 0.8;
-        }
+       .flower-image {
+           width: 30%;
+           height: auto;
+           margin-right: 10px;
+       }
 
-        .message-text {
-            color: white;
-            font-size: 18px;
-            line-height: 1.5;
-            text-align: left;
-            margin-right: 25%;
-            word-wrap: break-word;
-        }
+       .message-text-container {
+           flex-grow: 1;
+           background: rgba(255, 255, 255, 0.1);
+           border-radius: 15px;
+           padding: 15px;
+           margin-right: 10px;
+       }
 
-        .button-container {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+       .message-text {
+           color: white;
+           font-size: 18px;
+           line-height: 1.5;
+           text-align: center;
+           word-wrap: break-word;
+       }
 
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Kanit', sans-serif;
-            text-decoration: none;
-            display: inline-block;
-        }
+       .button-container {
+           display: flex;
+           gap: 10px;
+           justify-content: center;
+           margin-top: 20px;
+       }
 
-        .download-btn {
-            background-color: white;
-            color: black;
-        }
+       .btn {
+           padding: 12px 25px;
+           border: none;
+           border-radius: 25px;
+           font-size: 16px;
+           cursor: pointer;
+           transition: all 0.3s ease;
+           font-family: 'Kanit', sans-serif;
+           text-decoration: none;
+           display: inline-block;
+       }
 
-        .next-btn {
-            background-color: #ffd700;
-            color: black;
-        }
+       .download-btn {
+           background-color: #ffd700;
+           color: black;
+       }
 
-        .btn:hover {
-            transform: scale(1.05);
-        }
+       .next-btn {
+           background-color: white;
+           color: black;
+       }
 
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
-            z-index: -1;
-        }
-    </style>
+       .btn:hover {
+           transform: scale(1.05);
+       }
+
+       .bg-gradient {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -1;
+       }
+
+       .background-gif {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+           z-index: -2;
+       }
+   </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
-    <div class="container">
-        <div class="title">
-            เห็นมั้ยว่าอย่างไรนะ<br>
-            เมื่อใจที่ตัดออกจากบางสิ่งที่มันผูกมัดของไม้<br>
-            ลองบอกความในใจซะ มันเป็นเวลาของๆๆ<br>
-            ที่จะบอกให้ใครๆรู้ อีกครั้ง
-        </div>
+   <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
+   <div class="bg-gradient"></div>
+   <div class="container">
+       <div class="title">
+           <div style="display: flex; align-items: center; flex-direction: column; gap:20px;">
+               <div style="font-size: 26px;">เก็บมันไว้อย่างดีนะ</div>
+               <div>เมื่อไหร่ที่อยากกลับมาใส่ปุ๋ยเคมีกับดอกไม้</div>
+               <div>ลองมองภาพนี้อีกครั้ง ให้มันเป็นประกายเล็ก ๆ</div>
+               <div style="font-size: 26px;">ที่ช่วยจุดไฟในใจคุณ อีกครั้ง</div>
+           </div>
+       </div>
 
-        <div class="message-card" id="messageCard">
-            <div class="message-text">{{ user_message }}</div>
-        </div>
+       <div class="message-card" id="messageCard">
+           <img src="{{ url_for('static', filename='images/banana_wood.png') }}" alt="ดอกไม้" class="flower-image">
+           <div class="message-text-container">
+               <div class="message-text">{{ user_message }}</div>
+           </div>
+       </div>
 
-        <div class="button-container">
-            <button onclick="downloadCard()" class="btn download-btn">เก็บภาพ</button>
-            <a href="{{ url_for('mobile.page5_1_9') }}" class="btn next-btn">ถัดไป</a>
-        </div>
-    </div>
+       <div class="button-container">
+           <button onclick="downloadCard()" class="btn download-btn">เก็บภาพ</button>
+           <a href="{{ url_for('mobile.page5_1_9') }}" class="btn next-btn">ถัดไป</a>
+       </div>
+   </div>
 
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script>
-        async function downloadCard() {
-            try {
-                const card = document.getElementById('messageCard');
-                const canvas = await html2canvas(card);
-                
-                const link = document.createElement('a');
-                link.download = 'my-message.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            } catch (error) {
-                console.error('Error:', error);
-                alert('เกิดข้อผิดพลาดในการดาวน์โหลดภาพ');
-            }
-        }
-    </script>
+   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+   <script>
+       async function downloadCard() {
+           try {
+               const card = document.getElementById('messageCard');
+               const canvas = await html2canvas(card);
+               
+               const link = document.createElement('a');
+               link.download = 'my-message.png';
+               link.href = canvas.toDataURL('image/png');
+               link.click();
+           } catch (error) {
+               console.error('Error:', error);
+               alert('เกิดข้อผิดพลาดในการดาวน์โหลดภาพ');
+           }
+       }
+   </script>
 </body>
 </html>

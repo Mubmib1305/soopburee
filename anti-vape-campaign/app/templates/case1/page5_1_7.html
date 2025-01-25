@@ -81,18 +81,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
             z-index: -1;
+        }
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
         }
     </style>
 </head>
 <body>
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
     <div class="bg-gradient"></div>
     <div class="container">
         <div class="title">
-            ดอกไม้นี้เป็นสิ่งของคุณแค่ในที่นี้<br>
-            ที่กำลังตัดสินใจเลือกเส้นทางที่ดีกว่า<br>
-            มีอะไรจะบอกกับตัวคุณแบบไหม
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;">
+                <div>ดอกไม้นั้นกำลังขอบคุณคุณในวันนี้</div>
+                <div>ที่กล้าตัดสินใจเลือกเส้นทางที่ดีกว่า</div>
+                <br>
+                <div style="font-size: 26px;">มีอะไรจะบอกกับตัวคุณเองไหม</div>
+            </div>
         </div>
         
         <textarea 

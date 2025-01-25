@@ -66,23 +66,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
             z-index: -1;
+        }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
         }
     </style>
 </head>
 <body>
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
     <div class="bg-gradient"></div>
     <div class="container">
         <div class="message">
-            ก่อนหน้านี้ คุณได้เลือก<br>
-            ดอกไม้และวิธีการดูแลเรียบร้อยแล้ว<br><br>
-            ดอกไม้นี้<br>
-            เปรียบเสมือน <span class="highlight">ปอด</span> ของคุณ<br>
-            การใส่ <span class="highlight">ปุ๋ยเคมี</span> ก็คล้ายกับการ<br>
-            <span class="highlight">สูบหรือไฟฟ้า</span> ที่แม้จะได้ผลด้วย<br>
-            สารเคมี ที่ค่อยๆ ทำลาย<br>
-            ความบริสุทธิ์ในปอดของคุณ
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;">
+                <div>ก่อนหน้านี้ คุณได้เลือก</div>
+                <div>ดอกไม้และวิธีการดูแลเรียบร้อยแล้ว</div>
+            </div>
+
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;font-size: 26px;">
+                <div>ดอกไม้นี้</div>
+                <div>เปรียบเสมือน <span class="highlight">ปอด</span> ของคุณ</div>
+                <div>การใส่ <span class="highlight">ปุ๋ยเคมี</span> ก็คล้ายกับการ</div>
+                <div><span class="highlight">สูบหรือไฟฟ้า</span> ที่แม้จะได้ผลด้วย</div>
+                <div>สารเคมี ที่ค่อย ๆ ทำลาย</div>
+                <div>ความบริสุทธิ์ในปอดของคุณ</div>
+            </div>
         </div>
         <a href="{{ url_for('mobile.page5_1_3') }}" class="next-btn">ถัดไป</a>
     </div>

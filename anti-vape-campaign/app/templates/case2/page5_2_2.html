@@ -66,25 +66,42 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
             z-index: -1;
+        }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
         }
     </style>
 </head>
 <body>
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
     <div class="bg-gradient"></div>
     <div class="container">
         <div class="message">
-            ก่อนหน้านี้ คุณได้เลือก<br>
-            ดอกไม้และวิธีการดูแลเรียบร้อยแล้ว<br><br>
-            ดอกไม้นี้<br>
-            เปรียบเสมือน <span class="highlight">ปอด</span> ของคุณ<br>
-            การ<span class="highlight">รดน้ำอย่างสม่ำเสมอ</span><br>
-            เสมือนการดูแลตัวเอง<br>
-            นั่นเป็นสิ่งที่ดี แต่อย่าลืมนะ<br>
-            หากอยู่ใกล้ดอกไม้<br>
-            ที่ใส่ปุ๋ยเคมี คุณก็จะได้รับ<br>
-            สารเคมีไปด้วยเช่นกัน
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;">
+                <div>ก่อนหน้านี้ คุณได้เลือก</div>
+                <div>ดอกไม้และวิธีการดูแลเรียบร้อยแล้ว</div>
+            </div>
+
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;font-size: 26px; margin-bottom: 40px;">
+                <div>ดอกไม้นี้</div>
+                <div>เปรียบเสมือน <span class="highlight">ปอด</span> ของคุณ</div>
+                <div>การ <span class="highlight">รดน้ำอย่างสม่ำเสมอ</span></div>
+                <div>เสมือนการดูแลตัวเอง</div>
+                <div>นั้นเป็นสิ่งที่ดี แต่อย่าลืมนะ</div>
+            </div>
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;font-size: 26px;">
+                <div>หากอยู่ใกล้ดอกไม้</div>
+                <div>ที่ใส่ปุ๋ยเคมี คุณก็จะได้รับ</div>
+                <div>สารเคมีไปด้วยเช่นกัน</div>
+            </div>
         </div>
         <a href="{{ url_for('mobile.page5_2_3') }}" class="next-btn">ถัดไป</a>
     </div>

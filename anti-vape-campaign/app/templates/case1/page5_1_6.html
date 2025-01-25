@@ -49,11 +49,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
             z-index: -1;
         }
 
-        /* เพิ่มเอฟเฟกต์การเฟดอินของข้อความ */
         .fade-in {
             animation: fadeIn 0.8s ease-in;
         }
@@ -62,22 +60,40 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
     </style>
 </head>
 <body ontouchstart="handleTouch()">
+
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
+    
     <div class="bg-gradient"></div>
     <div class="container" onclick="handleClick()">
         <div class="message fade-in">
-            มาถึงการเปลี่ยนข้อ<br>
-            จากสิ่งที่ทำร้ายเรา<br>
-            ที่ชื่อการเริ่มต้นใหม่<br>
-            มาดูแลดอกไม้ของคุณ<br>
-            ในมือครั้งเดียวนะ<br>
-            <span class="highlight">
-                ลองนึกถึง<br>
-                ดอกไม้ที่มีร่างประทาน<br>
-                ในทุกๆฤดูกาล
-            </span>
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;">
+                <div>บางทีการปล่อยมือ</div>
+                <div>จากสิ่งที่ทำร้ายเรา</div>
+                <div>ก็คือการเริ่มต้นใหม</div>
+                <div>มาดูแลดอกไม้ของคุณ</div>
+                <div>ใหม่อีกครั้งเถอะนะ</div>
+                <div>
+                    <span class="highlight">
+                        ลองนึกถึง<br>
+                        ดอกไม้ที่เปร่งประกาย<br>
+                        ในทุกฤกูกาล
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -85,7 +101,7 @@
         // ตั้งเวลาเปลี่ยนหน้าอัตโนมัติหลัง 5 วินาที
         const timer = setTimeout(() => {
             navigateToNextPage();
-        }, 5000);
+        }, 9000);
 
         // ฟังก์ชันสำหรับการคลิก
         function handleClick() {

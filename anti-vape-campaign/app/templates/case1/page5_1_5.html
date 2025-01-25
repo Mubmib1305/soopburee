@@ -81,7 +81,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
             z-index: -1;
         }
 
@@ -94,15 +93,27 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
     </style>
 </head>
 <body>
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
+
     <div class="bg-gradient"></div>
     <div class="container">
         <div class="lung-comparison fade-in">
             <div class="lung-item">
                 <img src="{{ url_for('static', filename='images/pod-good.png') }}" alt="ปอดปกติ" class="lung-image">
-                <div class="lung-text">ปอดปกติที่ไม่มีอายุ 27 ปี</div>
+                <div class="lung-text">ปอดปกติทั่วไปเมื่ออายุ 27 ปี</div>
             </div>
             
             <div class="lung-item">

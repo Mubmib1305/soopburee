@@ -49,6 +49,7 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            flex-direction: column;
         }
 
         .option-label:hover {
@@ -68,6 +69,9 @@
             font-size: 16px;
             line-height: 1.4;
             margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .submit-btn {
@@ -99,54 +103,86 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
             z-index: -1;
+        }
+
+        .background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
         }
     </style>
 </head>
 <body>
+    <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
     <div class="bg-gradient"></div>
     <div class="container">
         <div class="title">
-            เลือก 1 ประโยคเพื่อ<br>
-            เป็นพลังสำคัญสำหรับคนอื่นๆ<br>
-            บอกให้พวกเขาได้เห็นชัดๆเลย
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 26px;">
+                <div>เลือก 1 ประโยคเพื่อ</div>
+                <div>เป็นพลังสำคัญสำหรับคนอื่น ๆ</div>
+                <div>บอกให้พวกเขาได้เห็นชัด ๆ เลย</div>
+            </div>
         </div>
 
         <div class="options-container">
             <label class="option-label">
                 <input type="radio" name="quote" value="1">
-                <span class="option-text">ทุกวันที่เลือกได้เริ่มตั้งแต่วันนี้ แต่ก่อนที่จะสิ้นสุดความพ่ายแพ้</span>
+                <span class="option-text">
+                    <div>ทุกวันคือโอกาสให้เริ่มต้นใหม่</div>
+                    <div>และทำสิ่งที่ดีต่อสุขภาพของคุณ</div>
+                </span>
             </label>
 
             <label class="option-label">
                 <input type="radio" name="quote" value="2">
-                <span class="option-text">มาพร้อมฝากถึงคนตายกายใจ ทำร้ายใครก็ไม่ดลายตน</span>
+                <span class="option-text">
+                    <div>บุหรี่ไฟฟ้าก็เหมือนคนหลายใจ</div>
+                    <div>ทำร้ายใครทีละหลายคน</div>
+                </span>
             </label>
 
             <label class="option-label">
                 <input type="radio" name="quote" value="3">
-                <span class="option-text">บุหรี่ไฟฟ้าก็คือ... ทำลายชีวิตของตนและคนรอบข้าง</span>
+                <span class="option-text">
+                    <div>บุหรี่ไฟฟ้ามีพิษ..</div>
+                    <div>ทำลายชีวิตตัวเองและคนรอบข้าง</div>
+                </span>
             </label>
 
             <label class="option-label">
                 <input type="radio" name="quote" value="4">
-                <span class="option-text">เปลี่ยนเวลาสายๆตื่น มาเป็นสายเลือดตกในนะ</span>
+                <span class="option-text">
+                    <div>เปลี่ยนจากสายควัน</div>
+                    <div>มาเป็นสายเฮลตี้ยังทันนะ</div>
+                </span>
             </label>
 
             <label class="option-label">
                 <input type="radio" name="quote" value="5">
-                <span class="option-text">การผันตันเป็นเพียงทางพาไปสู่ระยะ รู้ทำการแปลี่ยนแปลง</span>
+                <span class="option-text">
+                    <div>การเริ่มต้นใหม่ดีกว่าการไม่เริ่มเลย</div>
+                    <div>สู้ ๆ กับการเปลี่ยนแปลง</div>
+                </span>
             </label>
 
             <label class="option-label">
                 <input type="radio" name="quote" value="6">
-                <span class="option-text">สูบบุหรี่ไฟฟ้าไม่เท่ กันหรอพี่ก็เก๋า</span>
+                <span class="option-text">
+                    <div>สูบบุหรี่ไฟฟ้าไม่เท่</div>
+                    <div>กินบุฟเฟ่ดีกว่า</div>
+                </span>
             </label>
 
             <label class="option-label">
                 <input type="radio" name="quote" value="7">
-                <span class="option-text">เลิกสูบ จงเถิด สุขภาพใส่</span>
+                <span class="option-text">
+                    <div>เลิกสูบ งดเสี่ยง คุณทำได้</div>
+                </span>
             </label>
         </div>
 
