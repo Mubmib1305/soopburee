@@ -3,6 +3,10 @@ from app.utils.db import supabase
 
 display_bp = Blueprint('display', __name__)
 
+@display_bp.route('/qrcode')
+def qrcode_view():
+    return render_template('qrcode.html')
+
 @display_bp.route('/display')
 def display_view():
     return render_template('display.html')
