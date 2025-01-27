@@ -13,16 +13,24 @@ class DisplayController {
     init() {
         this.fetchMessages();
         setInterval(() => this.fetchMessages(), 5000);
+        
+        const blackboard = document.querySelector('.blackboard');
+        if (blackboard) {
+            blackboard.addEventListener('click', () => {
+                window.location.href = '/board_page';
+            });
+        }
     }
 
     async fetchMessages() {
         try {
             const response = await fetch('/api/messages/active');
             const data = await response.json();
-            this.messages = data.messages || [];
+            // กรองเฉพาะข้อความที่ไม่ว่างเปล่า
+            this.messages = data.messages.filter(msg => msg.content && msg.content.trim() !== '');
             this.updateDisplay();
         } catch (error) {
-            console.error('Error fetching messages:', error);
+            console.error('Error fetching quotes:', error);
         }
     }
 

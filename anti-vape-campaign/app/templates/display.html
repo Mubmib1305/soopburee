@@ -1,52 +1,45 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anti E-Cigarette Display</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/display.css') }}">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Anti E-Cigarette Display</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/display.css') }}">
+   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="pc-frame">
-        <div class="pc-screen">
-            <div class="main-container">
-                <section class="anatomy-section">
-                    <div class="human-anatomy" id="humanAnatomy">
-                        <img src="{{ url_for('static', filename='images/anatomy.png') }}" alt="Human Anatomy" id="anatomyImage">
-                        <div class="smoke-overlay">
-                            <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke1" class="smoke-gif">
-                        </div>
-                        <div class="warning-count" id="messageCount">0/20</div>
-                    </div>
-                </section>
+   <div class="pc-frame">
+       <div class="pc-screen">
+           <div class="main-container">
+               <section class="section-left">
+                   <div class="human-anatomy" id="humanAnatomy">
+                       <img src="{{ url_for('static', filename='images/anatomy.png') }}" alt="Human Anatomy" id="anatomyImage">
+                       <div class="smoke-overlay">
+                           <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke1" class="smoke-gif">
+                       </div>
+                       <div class="warning-count" id="messageCount">0/20</div>
+                   </div>
+               </section>
 
-                <div class="center-column">
-                    <div class="center-column-section">
-                        <div class="info-container">
-                            <h2>Smook Tank</h2>
-                            <div class="smoke-overlay">
-                                <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke2" class="smoke-gif">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="center-column-section">
-                        <div class="messages-container">
-                            <div class="scroll-container" id="scrollMessages"></div>
-                            <div class="smoke-overlay">
-                                <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke2" class="smoke-gif">
-                            </div>
-                        </div>
-                        <div class="total-messages" id="totalMessages">Total Messages: 0</div>
-                    </div>
-                </div>
+               <section class="section-center">
+                   <div class="messages-container">
+                       <div class="scroll-container" id="scrollMessages"></div>
+                       <div class="smoke-overlay">
+                           <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke2" class="smoke-gif">
+                       </div>
+                   </div>
+                   <div class="total-messages" id="totalMessages">Total Messages: 0</div>
+               </section>
 
-                <section class="sticker-board">
-                    <div class="board-container" id="stickerBoard"></div>
-                </section>
-            </div>
-        </div>
-    </div>
+               <section class="section-right">
+                   <div class="board-container" id="stickerBoard">
+                       <img src="{{ url_for('static', filename='images/blackboard.png') }}" alt="blackboard" class="blackboard">
+                   </div>
+               </section>
+           </div>
+       </div>
+   </div>
 
-    <script src="{{ url_for('static', filename='js/display.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/display.js') }}"></script>
 </body>
 </html>

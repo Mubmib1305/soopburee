@@ -1,8 +1,10 @@
+/* เปลี่ยนฟอนต์ทั้งระบบ */
+body, h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, select, a { font-family: 'Sarabun' !important; font-weight: 200; }
+
 body {
     margin: 0;
     padding: 20px;
     background-color: #1a1a1a;
-    font-family: 'Kanit', sans-serif;
     color: #ffffff;
     overflow: hidden;
     min-height: 100vh;
@@ -33,7 +35,7 @@ body {
 
 .main-container {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;  /* แบ่ง 3 ส่วนเท่ากัน */
     height: 100%;
     gap: 20px;
     padding: 20px;
@@ -139,6 +141,10 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.section-center {
+    position: relative;  
+}
+
 .total-messages {
     position: absolute;
     bottom: 20px;
@@ -147,7 +153,8 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.9rem;
-    z-index: 3;
+    z-index: 10;  
+    border: 1px solid rgba(255, 0, 0, 0.1);
 }
 
 .sticker-board {
@@ -156,17 +163,25 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.board-container {
+.section-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ 
+ .board-container {
+    width: 90%;
+    height: 90%;
+ }
+ 
+ .blackboard {
     width: 100%;
     height: 100%;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
-    overflow-y: auto;
-}
+    object-fit: contain;
+    cursor: pointer;
+ }
 
-.smoke-overlay {
+/* .smoke-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -174,7 +189,7 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 10;
-}
+} */
 
 .smoke-gif {
     width: 100%;
@@ -206,7 +221,7 @@ h2 {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -1;  /* ย้ายไปด้านหลัง */
+    z-index: -1; 
 }
 
 .smoke-gif {
