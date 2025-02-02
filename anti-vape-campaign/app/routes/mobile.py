@@ -32,7 +32,10 @@ def page4():
 """<<-------------------Case1------------------->>"""
 @mobile_bp.route('/case1/page5_1_1')
 def page5_1_1():
-    return render_template('case1/page5_1_1.html')
+    # ดึงข้อมูลดอกไม้ที่ผู้ใช้เลือกจาก database
+    result = supabase.from_('guardians').select('selected_flower').eq('id', session['user_id']).execute()
+    selected_flower = result.data[0]['selected_flower'] if result.data else 1
+    return render_template('case1/page5_1_1.html', selected_flower=selected_flower)
 
 @mobile_bp.route('/case1/page5_1_2')
 def page5_1_2():
@@ -82,7 +85,9 @@ def page5_1_11():
 """<<------------------Case2------------------->>"""
 @mobile_bp.route('/case2/page5_2_1')
 def page5_2_1():
-    return render_template('case2/page5_2_1.html')
+    result = supabase.from_('guardians').select('selected_flower').eq('id', session['user_id']).execute()
+    selected_flower = result.data[0]['selected_flower'] if result.data else 1
+    return render_template('case2/page5_2_1.html', selected_flower=selected_flower)
 
 @mobile_bp.route('/case2/page5_2_2')
 def page5_2_2():
@@ -252,17 +257,57 @@ def save_message():
 def select_quote():
     try:
         data = request.json
-        quote_id = data.get('quote_id')
-        quote_text = data.get('quote_text')
-        
-        if not quote_id or not quote_text:
-            return jsonify({'error': 'กรุณาเลือกคำคม'}), 400
+        data_type = data.get('type')
+        user_id = session.get('user_id')
 
-        result = supabase.from_('guardians').update({
-            'selected_quote': quote_text
-        }).eq('id', session['user_id']).execute()
+        if not user_id:
+            return jsonify({'error': 'กรุณาเข้าสู่ระบบใหม่'}), 401
+
+        # กรณีเลือกประโยคเด็ด
+        if data_type == 'quote':
+            quote_id = data.get('quote_id')
+            quote_text = data.get('quote_text')
+            
+            if not quote_id or not quote_text:
+                return jsonify({'error': 'กรุณาเลือกประโยค'}), 400
+
+            result = supabase.from_('guardians').update({
+                'selected_quote': quote_text,
+                'quote_type': 'preset',
+                'quote_id': quote_id
+            }).eq('id', user_id).execute()
+
+        # กรณีพิมพ์ข้อความเอง
+        elif data_type == 'message':
+            message = data.get('message')
+            
+            if not message:
+                return jsonify({'error': 'กรุณากรอกข้อความ'}), 400
+
+            result = supabase.from_('guardians').update({
+                'selected_quote': message,
+                'quote_type': 'custom',
+                'quote_id': None
+            }).eq('id', user_id).execute()
+
+        # กรณีเลือกอิโมจิ
+        elif data_type == 'emoji':
+            emoji = data.get('emoji')
+            
+            if not emoji:
+                return jsonify({'error': 'กรุณาเลือกอิโมจิ'}), 400
+
+            result = supabase.from_('guardians').update({
+                'selected_quote': emoji,
+                'quote_type': 'emoji',
+                'quote_id': None
+            }).eq('id', user_id).execute()
+
+        else:
+            return jsonify({'error': 'ประเภทข้อมูลไม่ถูกต้อง'}), 400
         
         return jsonify({'status': 'success', 'data': result.data})
+
     except Exception as e:
         print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
