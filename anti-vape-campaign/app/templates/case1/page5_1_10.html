@@ -419,57 +419,79 @@
             }
         });
      
-        async function submitChoice() {
-            let data = {};
-            let isValid = false;
-     
-            if (selectedType === 'quote' && selectedQuoteId && selectedQuoteText) {
-                data = {
-                    type: 'quote',
-                    quote_id: selectedQuoteId,
-                    quote_text: selectedQuoteText
-                };
-                isValid = true;
-            } else if (selectedType === 'emoji' && selectedEmoji) {
-                data = {
-                    type: 'emoji',
-                    emoji: selectedEmoji,
-                    emoji_id: document.querySelector('input[name="emoji"]:checked').value
-                };
-                isValid = true;
+// ในไฟล์ page5_1_10.html หรือ page5_2_7.html
+async function submitChoice() {
+    let data = {};
+    let isValid = false;
+
+    // เก็บค่าที่เลือก
+    const selectedQuote = document.querySelector('input[name="quote"]:checked');
+    const selectedEmoji = document.querySelector('input[name="emoji"]:checked');
+
+    // ถ้าเลือกข้อความอย่างเดียว
+    if (selectedQuote && !selectedEmoji) {
+        data = {
+            type: 'quote',
+            quote_id: selectedQuote.value,
+            quote_text: selectedQuote.closest('.option-label').querySelector('.option-text').textContent.trim()
+        };
+        isValid = true;
+    }
+    // ถ้าเลือกอิโมจิอย่างเดียว
+    else if (!selectedQuote && selectedEmoji) {
+        const emojiElement = selectedEmoji.closest('.option-label').querySelector('.option-text div');
+        data = {
+            type: 'emoji',
+            emoji: emojiElement.textContent
+        };
+        isValid = true;
+    }
+    // ถ้าเลือกทั้งคู่
+    else if (selectedQuote && selectedEmoji) {
+        const emojiElement = selectedEmoji.closest('.option-label').querySelector('.option-text div');
+        data = {
+            type: 'both',
+            quote_id: selectedQuote.value,
+            quote_text: selectedQuote.closest('.option-label').querySelector('.option-text').textContent.trim(),
+            emoji: emojiElement.textContent
+        };
+        isValid = true;
+    }
+    else {
+        alert('กรุณาเลือกข้อความหรืออิโมจิอย่างน้อย 1 อย่าง');
+        return;
+    }
+
+    if (isValid) {
+        try {
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = true;
+            nextBtn.textContent = "กำลังบันทึก...";
+
+            const response = await fetch('/api/select-quote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                window.location.href = "/mobile/page5_1_11";  // หรือหน้าที่ต้องการให้ไป
             } else {
-                alert('กรุณาเลือกประโยคหรืออิโมจิ');
+                const error = await response.json();
+                alert(error.error || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                nextBtn.disabled = false;
+                nextBtn.textContent = "เสร็จสิ้น";
             }
-     
-            if (isValid) {
-                try {
-                    const nextBtn = document.getElementById('nextBtn');
-                    nextBtn.disabled = true;
-                    nextBtn.textContent = "กำลังบันทึก...";
-     
-                    const response = await fetch('/api/select-quote', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    });
-     
-                    if (response.ok) {
-                        window.location.href = "{{ url_for('mobile.page5_1_11') }}";
-                    } else {
-                        alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
-                        nextBtn.disabled = false;
-                        nextBtn.textContent = "เสร็จสิ้น";
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
-                    nextBtn.disabled = false;
-                    nextBtn.textContent = "เสร็จสิ้น";
-                }
-            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            nextBtn.disabled = false;
+            nextBtn.textContent = "เสร็จสิ้น";
         }
+    }
+}
      </script>
  </body>
 </html>

@@ -138,7 +138,7 @@ def create_message():
         print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-# API สำหรับลงทะเบียน - แก้ไขส่วนนี้เพื่อกำหนดค่าเริ่มต้น
+# API สำหรับลงทะเบียน
 @mobile_bp.route('/api/register', methods=['POST'])
 def register():
     try:
@@ -151,15 +151,15 @@ def register():
 
         birth_year = int(birth_year)
 
-        # เพิ่มค่าเริ่มต้นเป็น 0 แทน None เพื่อป้องกันปัญหา NULL
+        # เอา selected_message ออก
         result = supabase.from_('guardians').insert({
             'nickname': nickname,
             'birth_year': birth_year,
             'selected_flower': 0,
             'care_method': 0,
-            'selected_message': '',
-            'user_message': '',
-            'selected_quote': ''
+            'selected_quote': '',  # เก็บไว้สำหรับข้อความ
+            'selected_emoji': '',  # เก็บไว้สำหรับอิโมจิ
+            'user_message': ''
         }).execute()
         
         if result.data:
@@ -252,59 +252,33 @@ def save_message():
         print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-# API สำหรับเลือกคำคม
 @mobile_bp.route('/api/select-quote', methods=['POST'])
 def select_quote():
     try:
         data = request.json
-        data_type = data.get('type')
         user_id = session.get('user_id')
 
         if not user_id:
             return jsonify({'error': 'กรุณาเข้าสู่ระบบใหม่'}), 401
 
-        # กรณีเลือกประโยคเด็ด
-        if data_type == 'quote':
-            quote_id = data.get('quote_id')
-            quote_text = data.get('quote_text')
-            
-            if not quote_id or not quote_text:
-                return jsonify({'error': 'กรุณาเลือกประโยค'}), 400
+        # ตรวจสอบข้อมูลที่จำเป็น
+        selected_quote = data.get('selected_quote')
+        selected_emoji = data.get('selected_emoji')
+        quote_id = data.get('quote_id')
+        quote_type = data.get('quote_type')
 
-            result = supabase.from_('guardians').update({
-                'selected_quote': quote_text,
-                'quote_type': 'preset',
-                'quote_id': quote_id
-            }).eq('id', user_id).execute()
+        if not all([selected_quote, selected_emoji, quote_id, quote_type]):
+            return jsonify({'error': 'ข้อมูลไม่ครบถ้วน'}), 400
 
-        # กรณีพิมพ์ข้อความเอง
-        elif data_type == 'message':
-            message = data.get('message')
-            
-            if not message:
-                return jsonify({'error': 'กรุณากรอกข้อความ'}), 400
+        # อัพเดทข้อมูลแยกคอลัมน์
+        update_data = {
+            'selected_quote': selected_quote,
+            'selected_emoji': selected_emoji,
+            'quote_id': quote_id,
+            'quote_type': quote_type
+        }
 
-            result = supabase.from_('guardians').update({
-                'selected_quote': message,
-                'quote_type': 'custom',
-                'quote_id': None
-            }).eq('id', user_id).execute()
-
-        # กรณีเลือกอิโมจิ
-        elif data_type == 'emoji':
-            emoji = data.get('emoji')
-            
-            if not emoji:
-                return jsonify({'error': 'กรุณาเลือกอิโมจิ'}), 400
-
-            result = supabase.from_('guardians').update({
-                'selected_quote': emoji,
-                'quote_type': 'emoji',
-                'quote_id': None
-            }).eq('id', user_id).execute()
-
-        else:
-            return jsonify({'error': 'ประเภทข้อมูลไม่ถูกต้อง'}), 400
+        result = supabase.from_('guardians').update(update_data).eq('id', user_id).execute()
         
         return jsonify({'status': 'success', 'data': result.data})
 
