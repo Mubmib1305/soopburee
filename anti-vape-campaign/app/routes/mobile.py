@@ -32,7 +32,10 @@ def page4():
 """<<-------------------Case1------------------->>"""
 @mobile_bp.route('/case1/page5_1_1')
 def page5_1_1():
-    return render_template('case1/page5_1_1.html')
+    # ดึงข้อมูลดอกไม้ที่ผู้ใช้เลือกจาก database
+    result = supabase.from_('guardians').select('selected_flower').eq('id', session['user_id']).execute()
+    selected_flower = result.data[0]['selected_flower'] if result.data else 1
+    return render_template('case1/page5_1_1.html', selected_flower=selected_flower)
 
 @mobile_bp.route('/case1/page5_1_2')
 def page5_1_2():
@@ -82,7 +85,9 @@ def page5_1_11():
 """<<------------------Case2------------------->>"""
 @mobile_bp.route('/case2/page5_2_1')
 def page5_2_1():
-    return render_template('case2/page5_2_1.html')
+    result = supabase.from_('guardians').select('selected_flower').eq('id', session['user_id']).execute()
+    selected_flower = result.data[0]['selected_flower'] if result.data else 1
+    return render_template('case2/page5_2_1.html', selected_flower=selected_flower)
 
 @mobile_bp.route('/case2/page5_2_2')
 def page5_2_2():
@@ -133,7 +138,7 @@ def create_message():
         print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-# API สำหรับลงทะเบียน - แก้ไขส่วนนี้เพื่อกำหนดค่าเริ่มต้น
+# API สำหรับลงทะเบียน
 @mobile_bp.route('/api/register', methods=['POST'])
 def register():
     try:
@@ -146,15 +151,15 @@ def register():
 
         birth_year = int(birth_year)
 
-        # เพิ่มค่าเริ่มต้นเป็น 0 แทน None เพื่อป้องกันปัญหา NULL
+        # เอา selected_message ออก
         result = supabase.from_('guardians').insert({
             'nickname': nickname,
             'birth_year': birth_year,
             'selected_flower': 0,
             'care_method': 0,
-            'selected_message': '',
-            'user_message': '',
-            'selected_quote': ''
+            'selected_quote': '',  # เก็บไว้สำหรับข้อความ
+            'selected_emoji': '',  # เก็บไว้สำหรับอิโมจิ
+            'user_message': ''
         }).execute()
         
         if result.data:
@@ -247,22 +252,36 @@ def save_message():
         print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-# API สำหรับเลือกคำคม
 @mobile_bp.route('/api/select-quote', methods=['POST'])
 def select_quote():
     try:
         data = request.json
-        quote_id = data.get('quote_id')
-        quote_text = data.get('quote_text')
-        
-        if not quote_id or not quote_text:
-            return jsonify({'error': 'กรุณาเลือกคำคม'}), 400
+        user_id = session.get('user_id')
 
-        result = supabase.from_('guardians').update({
-            'selected_quote': quote_text
-        }).eq('id', session['user_id']).execute()
+        if not user_id:
+            return jsonify({'error': 'กรุณาเข้าสู่ระบบใหม่'}), 401
+
+        # ตรวจสอบข้อมูลที่จำเป็น
+        selected_quote = data.get('selected_quote')
+        selected_emoji = data.get('selected_emoji')
+        quote_id = data.get('quote_id')
+        quote_type = data.get('quote_type')
+
+        if not all([selected_quote, selected_emoji, quote_id, quote_type]):
+            return jsonify({'error': 'ข้อมูลไม่ครบถ้วน'}), 400
+
+        # อัพเดทข้อมูลแยกคอลัมน์
+        update_data = {
+            'selected_quote': selected_quote,
+            'selected_emoji': selected_emoji,
+            'quote_id': quote_id,
+            'quote_type': quote_type
+        }
+
+        result = supabase.from_('guardians').update(update_data).eq('id', user_id).execute()
         
         return jsonify({'status': 'success', 'data': result.data})
+
     except Exception as e:
         print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500

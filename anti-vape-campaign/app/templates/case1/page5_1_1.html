@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap" rel="stylesheet">
     <title>แสดงคลิป</title>
     <style>
         * {
@@ -34,25 +35,88 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: 'Sarabun', sans-serif;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="video-container">
         <video id="flowerVideo" playsinline autoplay muted>
-            <source src="{{ url_for('static', filename='videos/flower_clip.mp4') }}" type="video/mp4">
+            {% if selected_flower == 1 %}
+                <source src="{{ url_for('static', filename='videos/flower-orchid.mp4') }}" type="video/mp4">
+            {% elif selected_flower == 2 %}
+                <source src="{{ url_for('static', filename='videos/flower-deli.mp4') }}" type="video/mp4">
+            {% else %}
+                <source src="{{ url_for('static', filename='videos/flower-iris.mp4') }}" type="video/mp4">
+            {% endif %}
             บราวเซอร์ของคุณไม่รองรับการเล่นวิดีโอ
         </video>
+        <div id="errorMessage" class="error-message">
+            ไม่สามารถโหลดวิดีโอได้ กรุณาลองใหม่อีกครั้ง
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('flowerVideo');
-            
-            video.addEventListener('ended', function() {
+            const errorMessage = document.getElementById('errorMessage');
+            let hasNavigated = false;
+
+            // จัดการเมื่อเกิดข้อผิดพลาดในการโหลดวิดีโอ
+            video.addEventListener('error', function() {
+                console.error('ไม่สามารถโหลดวิดีโอได้');
+                errorMessage.style.display = 'block';
+                // พยายามโหลดวิดีโอใหม่อีกครั้งหลังจาก 3 วินาที
                 setTimeout(() => {
-                    window.location.href = "{{ url_for('mobile.page5_1_2') }}";
-                }, 1000);
+                    if (!hasNavigated) {
+                        window.location.href = "{{ url_for('mobile.page5_1_2') }}";
+                    }
+                }, 3000);
             });
+            
+            // จัดการเมื่อวิดีโอเล่นจบ
+            video.addEventListener('ended', function() {
+                if (!hasNavigated) {
+                    hasNavigated = true;
+                    // รอ 1 วินาทีก่อนเปลี่ยนหน้า
+                    setTimeout(() => {
+                        window.location.href = "{{ url_for('mobile.page5_1_2') }}";
+                    }, 1000);
+                }
+            });
+
+            // จัดการการคลิกที่วิดีโอ
+            video.addEventListener('click', function() {
+                if (!hasNavigated) {
+                    hasNavigated = true;
+                    window.location.href = "{{ url_for('mobile.page5_1_2') }}";
+                }
+            });
+
+            // จัดการการสัมผัสบนอุปกรณ์มือถือ
+            video.addEventListener('touchstart', function() {
+                if (!hasNavigated) {
+                    hasNavigated = true;
+                    window.location.href = "{{ url_for('mobile.page5_1_2') }}";
+                }
+            });
+
+            // ตั้งเวลาสำรองในกรณีที่วิดีโอไม่เล่นหรือมีปัญหา
+            setTimeout(() => {
+                if (!hasNavigated) {
+                    hasNavigated = true;
+                    window.location.href = "{{ url_for('mobile.page5_1_2') }}";
+                }
+            }, 30000); // 30 วินาที
         });
     </script>
 </body>

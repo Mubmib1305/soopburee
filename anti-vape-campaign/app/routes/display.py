@@ -17,6 +17,26 @@ def board_page():
 
 @display_bp.route('/api/messages/active')
 def get_active_messages():
-    result = supabase.table('guardians').select('selected_quote').execute()
-    quotes = [{'content': item['selected_quote']} for item in result.data if item['selected_quote']]
-    return jsonify({'messages': quotes})
+    result = supabase.table('guardians').select('selected_quote, selected_emoji, quote_type').execute()
+    
+    messages = []
+    emojis = []
+    
+    for item in result.data:
+        # แยกข้อความ
+        if item.get('selected_quote') and item.get('quote_type') == 'message':
+            messages.append({
+                'content': item['selected_quote'],
+                'type': 'message'
+            })
+        # แยกอิโมจิ
+        if item.get('selected_emoji'):
+            emojis.append({
+                'content': item['selected_emoji'],
+                'type': 'emoji'
+            })
+    
+    return jsonify({
+        'messages': messages,
+        'emojis': emojis
+    })

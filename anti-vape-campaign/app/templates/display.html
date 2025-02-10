@@ -22,21 +22,19 @@
                </section>
 
                <section class="section-center">
-                   <div class="messages-container">
-                       <div class="scroll-container" id="scrollMessages"></div>
-                       <div class="smoke-overlay">
-                           <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke2" class="smoke-gif">
-                       </div>
-                   </div>
-                   <div class="total-messages" id="totalMessages">Total Messages: 0</div>
-               </section>
-
-               <section class="section-right">
-                   <div class="board-container" id="stickerBoard">
-                       <img src="{{ url_for('static', filename='images/blackboard.png') }}" alt="blackboard" class="blackboard">
-                   </div>
-               </section>
-           </div>
+                <div class="messages-container">
+                    <div class="scroll-container" id="scrollMessages"></div>
+                    <div class="smoke-overlay">
+                        <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke2" class="smoke-gif">
+                    </div>
+                </div>
+                <div class="total-messages" id="totalMessages">Total Messages: 0</div>
+            </section>
+        
+            <section class="section-right">
+                <div class="emoji-container" id="emojiGrid"></div>
+            </section>
+        </div>
        </div>
    </div>
 
