@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti Vape Campaign</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000000;
+            font-family: 'Sarabun', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .smoke-animation {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            opacity: 0.3;
+            z-index: 1;
+            background-image: url("{{ url_for('static', filename='images/smoke3.gif') }}");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            animation: slowSmoke 40s ease-in-out infinite;
+            filter: blur(1px);
+            transform-origin: center;
+        }
+
+        @keyframes slowSmoke {
+            0% {
+                transform: scale(1) translate(0, 0);
+                filter: blur(1px);
+            }
+            25% {
+                transform: scale(1.05) translate(-1%, -1%);
+                filter: blur(1.5px);
+            }
+            50% {
+                transform: scale(1.1) translate(-2%, -2%);
+                filter: blur(2px);
+            }
+            75% {
+                transform: scale(1.05) translate(-1%, -1%);
+                filter: blur(1.5px);
+            }
+            100% {
+                transform: scale(1) translate(0, 0);
+                filter: blur(1px);
+            }
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #qrcode {
+            position: relative;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+            animation: float 3s ease-in-out infinite;
+            transform: scale(1.5); 
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1.5); }
+            50% { transform: translateY(-10px) scale(1.5); }
+            100% { transform: translateY(0) scale(1.5); }
+        }
+
+        .next-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 10px 5px;
+            background-color: transparent;
+            color: #ff0000;
+            border: none;
+            border-bottom: 2px solid #ff0000;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        .next-button:hover {
+            border-bottom-width: 3px;
+            transform: translateY(-2px);
+        }
+
+        #qrcode img {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="smoke-animation"></div>
+    <div class="container">
+        <div id="qrcode"></div>
+        <button class="next-button" onclick="goToNextPage()">ถัดไป</button>
+    </div>
+
+    <script>
+        window.onload = function() {
+            new QRCode(document.getElementById("qrcode"), {
+                text: "http://192.168.1.103:5000",
+                width: 320,
+                height: 320,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        };
+
+        function goToNextPage() {
+            window.location.href = "{{ url_for('display.display_view') }}";
+        }
+    </script>
+</body>
+</html>
