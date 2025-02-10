@@ -5,13 +5,27 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Anti E-Cigarette Display</title>
    <link rel="stylesheet" href="{{ url_for('static', filename='css/display.css') }}">
-   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+   <div class="back-button" onclick="goBack()">
+       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+           <path d="M19 12H5M12 19l-7-7 7-7"/>
+       </svg>
+       <span>ย้อนกลับ</span>
+   </div>
+
    <div class="pc-frame">
+       <div class="pc-frame-decoration top-left"></div>
+       <div class="pc-frame-decoration top-right"></div>
+       <div class="pc-frame-decoration bottom-left"></div>
+       <div class="pc-frame-decoration bottom-right"></div>
+       
        <div class="pc-screen">
+           <div class="screen-overlay"></div>
            <div class="main-container">
                <section class="section-left">
+                   <div class="panel-header">สถานะร่างกาย</div>
                    <div class="human-anatomy" id="humanAnatomy">
                        <img src="{{ url_for('static', filename='images/anatomy.png') }}" alt="Human Anatomy" id="anatomyImage">
                        <div class="smoke-overlay">
@@ -22,22 +36,34 @@
                </section>
 
                <section class="section-center">
-                <div class="messages-container">
-                    <div class="scroll-container" id="scrollMessages"></div>
-                    <div class="smoke-overlay">
-                        <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke2" class="smoke-gif">
-                    </div>
+                   <div class="panel-header">ข้อความที่ได้รับ</div>
+                   <div class="messages-container">
+                       <div class="scroll-container" id="scrollMessages"></div>
+                       <div class="smoke-overlay">
+                           <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="smoke2" class="smoke-gif">
+                       </div>
+                       
+                   </div>
+               </section>
+
+               <section class="section-right">
+                   <div class="panel-header">อิโมจิที่แสดงความรู้สึก</div>
+                   <div class="emoji-container" id="emojiGrid"></div>
+                   <div class="info-container">
+                        <div class="info-item total-messages" id="totalMessages">จำนวนข้อความทั้งหมด: 0</div>
+                        <div class="info-item last-update" id="lastUpdate">อัพเดทล่าสุด: เมื่อสักครู่</div>
+                        <div class="info-item hashtag">#B.less #ปอดพัง</div>
                 </div>
-                <div class="total-messages" id="totalMessages">Total Messages: 0</div>
-            </section>
-        
-            <section class="section-right">
-                <div class="emoji-container" id="emojiGrid"></div>
-            </section>
-        </div>
+               </section>
+           </div>
        </div>
    </div>
 
    <script src="{{ url_for('static', filename='js/display.js') }}"></script>
+   <script>
+       function goBack() {
+           window.location.href = "{{ url_for('display.qrcode_view') }}";
+       }
+   </script>
 </body>
 </html>

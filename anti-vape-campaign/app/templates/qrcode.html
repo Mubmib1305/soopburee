@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anti Vape Campaign</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -14,7 +15,7 @@
             justify-content: center;
             align-items: center;
             background-color: #000000;
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Sarabun' !important; font-weight: 200;
             position: relative;
             overflow: hidden;
         }
@@ -66,24 +67,44 @@
             height: 100%;
             z-index: 2;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            gap: 20px;
+        }
+
+        .title {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInTitle 1s ease forwards;
+        }
+
+        @keyframes fadeInTitle {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         #qrcode {
             position: relative;
-            padding: 40px;
+            padding: 30px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
-            animation: float 3s ease-in-out infinite;
-            transform: scale(1.5); 
+            animation: slideUp 1s ease forwards;
+            opacity: 0;
+            transform: scale(1.2) translateX(-100vw) translateY(100vh);
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) scale(1.5); }
-            50% { transform: translateY(-10px) scale(1.5); }
-            100% { transform: translateY(0) scale(1.5); }
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: scale(1.2) translateX(0) translateY(0);
+            }
         }
 
         .next-button {
@@ -115,6 +136,7 @@
 <body>
     <div class="smoke-animation"></div>
     <div class="container">
+        <h1 class="title">ชวนมาสำรวจเรื่องราวนี้</h1>
         <div id="qrcode"></div>
         <button class="next-button" onclick="goToNextPage()">ถัดไป</button>
     </div>
@@ -122,9 +144,9 @@
     <script>
         window.onload = function() {
             new QRCode(document.getElementById("qrcode"), {
-                text: "http://192.168.1.103:5000",
-                width: 320,
-                height: 320,
+                text: "http://192.168.1.106:5000",
+                width: 256,  
+                height: 256,
                 colorDark : "#000000",
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
