@@ -7,9 +7,9 @@ display_bp = Blueprint('display', __name__)
 def display_view():
     return render_template('display.html')
 
-@display_bp.route('/board_page')
-def board_page():
-    return render_template('board_page.html')
+# @display_bp.route('/board_page')
+# def board_page():
+#     return render_template('board_page.html')
 
 @display_bp.route('/api/messages/active')
 def get_active_messages():
