@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="emoji-page">
+    <div class="back-button" onclick="window.location.href='{{ url_for('display.qrcode_view') }}'">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>ย้อนกลับ</span>
+    </div>
+
+    <div class="display-frame">
+        <div class="screen-overlay"></div>
+        <div class="main-container">
+            <div class="panel-header">อิโมจิที่แสดงความรู้สึก</div>
+            <div class="emoji-container" id="emojiGrid"></div>
+            <div class="info-container">
+                <div class="info-item last-update" id="lastUpdate">อัพเดทล่าสุด: เมื่อสักครู่</div>
+                <div class="info-item hashtag">#B.less #ปอดพัง</div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>initEmojiPage();</script>
+</body>
+</html>

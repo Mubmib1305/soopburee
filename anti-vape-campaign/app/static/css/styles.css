@@ -1,11 +1,12 @@
+/* Common Styles */
 body, h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, select, a { 
     font-family: 'Sarabun', sans-serif;
-    font-weight: 200; 
+    font-weight: 200;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    padding: 0;
     background-color: #1a1a1a;
     color: #ffffff;
     overflow: hidden;
@@ -38,60 +39,77 @@ body {
     transform: translateY(-2px);
 }
 
-.pc-frame {
-    width: 95vw;
-    height: 90vh;
+.display-frame {
+    width: 1024px;
+    height: 768px;
     background: #2a2a2a;
     border-radius: 10px;
     border: 2px solid #3a3a3a;
     padding: 20px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     position: relative;
-    transform-origin: center;
-    transform: scale(0.9); 
+    overflow: hidden;
 }
 
-.pc-screen {
+.screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: #1a1a1a;
-    border-radius: 5px;
-    overflow: hidden;
-    position: relative;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none;
 }
 
 .main-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
     height: 100%;
-    gap: 20px;
     padding: 20px;
     position: relative;
     z-index: 2;
+    background: #1a1a1a;
+    border-radius: 5px;
 }
 
 .panel-header {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 400;
-    padding: 10px 15px;
+    padding: 15px 20px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px 8px 0 0;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-align: center;
 }
 
-.section-left, .section-center, .section-right {
-    background: rgba(30, 30, 30, 0.9);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
+.smoke-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    pointer-events: none;
+    z-index: -1;
 }
 
+.smoke-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.2;
+    mix-blend-mode: lighten;
+    filter: blur(1px) contrast(150%) brightness(160%);
+    transition: all 0.5s ease;
+    animation: smokeFloat 20s infinite linear;
+}
+
+/* Anatomy Page Styles */
 .human-anatomy {
     position: relative;
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 80px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,17 +124,18 @@ body {
 
 .warning-count {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    font-size: 1.2rem;
+    bottom: 30px;
+    right: 30px;
+    font-size: 1.5rem;
     color: #ff4444;
     background: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
+    padding: 10px 15px;
     border-radius: 5px;
 }
 
+/* Messages Page Styles */
 .messages-container {
-    height: calc(100% - 60px);
+    height: calc(100% - 120px);
     overflow: hidden;
     position: relative;
 }
@@ -141,21 +160,21 @@ body {
 }
 
 .total-messages {
-    position: static;
-    bottom: auto;
-    right: auto;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     background: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
+    padding: 8px 12px;
     border-radius: 5px;
-    font-size: 0.9rem;
-    z-index: 10;
+    font-size: 1rem;
     border: 1px solid rgba(255, 0, 0, 0.1);
 }
 
+/* Emoji Page Styles */
 .emoji-container {
     position: relative;
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 120px);
     transform-style: preserve-3d;
     perspective: 1000px;
 }
@@ -170,44 +189,21 @@ body {
     pointer-events: none;
 }
 
-.smoke-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.smoke-gif {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 2; 
-    mix-blend-mode: lighten; 
-    filter: blur(1px) contrast(150%) brightness(160%); 
-    transition: all 0.5s ease;
-    animation: smokeFloat 20s infinite linear;
-}
-
 .info-container {
     position: absolute;
-    bottom: 50px;
-    right: 25px;
+    bottom: 20px;
+    right: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    z-index: 10;
 }
 
 .info-item {
     background: rgba(0, 0, 0, 0.5);
     padding: 8px 12px;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 1rem;
     border: 1px solid rgba(255, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
 }
 
 .hashtag {
@@ -215,6 +211,7 @@ body {
     font-weight: 400;
 }
 
+/* Animations */
 @keyframes smokeFloat {
     0% { transform: scale(1) translateY(0); }
     50% { transform: scale(1.1) translateY(-10px); }
@@ -239,13 +236,4 @@ body {
         transform: translate3d(0, -100%, 0) rotate(var(--rotate-end)) scale(0.1);
         opacity: 0;
     }
-}
-
-.emoji-container {
-    contain: layout size;
-    z-index: 2;
-}
-
-.emoji-bubble {
-    contain: paint style layout;
 }
