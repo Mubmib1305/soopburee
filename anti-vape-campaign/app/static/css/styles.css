@@ -19,23 +19,21 @@ body {
 
 .back-button {
     position: fixed;
-    top: 20px;
-    left: 28px;
+    top: 15px;
+    left: 45px;
     display: flex;
     align-items: center;
     gap: 5px;
     padding: 10px 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    color: white;
+    background: none;
+    color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 1000;
 }
 
 .back-button:hover {
-    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 1);
     transform: translateY(-2px);
 }
 
@@ -45,8 +43,6 @@ body {
     background: #2a2a2a;
     border-radius: 10px;
     border: 2px solid #3a3a3a;
-    padding: 20px;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden;
 }
@@ -66,12 +62,11 @@ body {
 }
 
 .main-container {
+    width: 100%;
     height: 100%;
-    padding: 20px;
     position: relative;
     z-index: 2;
     background: #1a1a1a;
-    border-radius: 5px;
 }
 
 .panel-header {
@@ -79,37 +74,35 @@ body {
     font-weight: 400;
     padding: 15px 20px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px 8px 0 0;
-    margin-bottom: 15px;
     text-align: center;
 }
 
 .smoke-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width: 200%;
+    height: 215%;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
+    overflow: hidden;
 }
 
 .smoke-gif {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.2;
-    mix-blend-mode: lighten;
-    filter: blur(1px) contrast(150%) brightness(160%);
+    opacity: 0.15;
+    mix-blend-mode: screen;
+    filter: blur(2px) contrast(150%) brightness(180%);
     transition: all 0.5s ease;
-    animation: smokeFloat 20s infinite linear;
+    animation: smokeFloat 30s infinite linear;
+    transform-origin: center center;
 }
 
 /* Anatomy Page Styles */
 .human-anatomy {
     position: relative;
     width: 100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 50px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -150,7 +143,7 @@ body {
 .message-item {
     padding: 15px 20px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 2.2rem;
     opacity: 0.8;
     background: rgba(0, 0, 0, 0.2);
     margin: 10px;
@@ -161,7 +154,7 @@ body {
 
 .total-messages {
     position: absolute;
-    bottom: 20px;
+    bottom: 30px;
     right: 20px;
     background: rgba(0, 0, 0, 0.5);
     padding: 8px 12px;
@@ -213,27 +206,32 @@ body {
 
 /* Animations */
 @keyframes smokeFloat {
-    0% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.1) translateY(-10px); }
-    100% { transform: scale(1) translateY(0); }
+    0% { transform: scale(1.5) rotate(0deg); }
+    25% { transform: scale(1.7) rotate(3deg); }
+    50% { transform: scale(1.6) rotate(0deg); }
+    75% { transform: scale(1.8) rotate(-3deg); }
+    100% { transform: scale(1.5) rotate(0deg); }
 }
 
 @keyframes float-bubble {
     0% {
-        transform: translate3d(0, 0, 0) rotate(var(--rotate-start)) scale(0.3);
+        transform: translate3d(0, 0, 0) rotate(var(--rotate-start)) scale(0.5);
         opacity: 0;
     }
     10% {
         opacity: 1;
         transform: translate3d(var(--path-control1), -10%, 50px)
                   rotate(calc(var(--rotate-start) * 0.5))
-                  scale(var(--random-scale));
+                  scale(1.2);
     }
     90% {
         opacity: 0.7;
+        transform: translate3d(var(--path-control1), -80%, 30px)
+                  rotate(calc(var(--rotate-end) * 0.8))
+                  scale(0.8);
     }
     100% {
-        transform: translate3d(0, -100%, 0) rotate(var(--rotate-end)) scale(0.1);
+        transform: translate3d(0, -100%, 0) rotate(var(--rotate-end)) scale(0.3);
         opacity: 0;
     }
 }

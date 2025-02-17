@@ -85,7 +85,7 @@ class MessagesController {
         let messageElements = this.messages
             .map(msg => `<div class="message-item">${msg.content}</div>`)
             .join('');
-        messageElements = messageElements + messageElements; // Duplicate for continuous scroll
+        messageElements = messageElements;
         
         if (!this.isScrolling) {
             this.scrollContainer.innerHTML = messageElements;
