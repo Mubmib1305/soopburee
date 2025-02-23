@@ -28,7 +28,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
         }
 
         video {
@@ -36,50 +35,93 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.001);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: not-allowed;
+        }
+
+        .overlay-message {
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        .video-overlay:hover .overlay-message,
+        .video-overlay:active .overlay-message {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
-    <div class="video-container" onclick="handleInteraction()">
+    <div class="video-container">
         <video id="toxicVideo" playsinline autoplay muted>
             <source src="{{ url_for('static', filename='videos/toxicvape.mp4') }}" type="video/mp4">
             บราวเซอร์ของคุณไม่รองรับการเล่นวิดีโอ
         </video>
+        <div id="videoOverlay" class="video-overlay">
+            <div class="overlay-message">รอให้วิดีโอเล่นจบก่อนนะ</div>
+        </div>
     </div>
 
     <script>
-        let navigationTimeout;
-        let hasNavigated = false;
-
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('toxicVideo');
+            const videoOverlay = document.getElementById('videoOverlay');
+            let hasNavigated = false;
+            let videoFinished = false;
             
             // เมื่อวิดีโอเล่นจบ
             video.addEventListener('ended', function() {
+                videoFinished = true;
+                videoOverlay.style.display = 'none';
                 if (!hasNavigated) {
+                    hasNavigated = true;
                     // รอ 1 วินาทีก่อนเปลี่ยนหน้า
-                    navigationTimeout = setTimeout(() => {
-                        navigateToNextPage();
+                    setTimeout(() => {
+                        window.location.href = "{{ url_for('mobile.page5_2_5') }}";
                     }, 1000);
                 }
             });
+
+            // จัดการการคลิกที่วิดีโอ
+            videoOverlay.addEventListener('click', function(e) {
+                if (!videoFinished) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // จัดการการสัมผัสบนอุปกรณ์มือถือ
+            videoOverlay.addEventListener('touchstart', function(e) {
+                if (!videoFinished) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // ตั้งเวลาสำรองในกรณีที่วิดีโอไม่เล่นหรือมีปัญหา
+            setTimeout(() => {
+                if (!hasNavigated && !videoFinished) {
+                    videoFinished = true;
+                    hasNavigated = true;
+                    window.location.href = "{{ url_for('mobile.page5_2_5') }}";
+                }
+            }, 30000); // 30 วินาที
         });
-
-        // ฟังก์ชันจัดการการโต้ตอบ (คลิกหรือสัมผัส)
-        function handleInteraction() {
-            if (!hasNavigated) {
-                clearTimeout(navigationTimeout);
-                navigateToNextPage();
-            }
-        }
-
-        // ฟังก์ชันนำทางไปหน้าถัดไป
-        function navigateToNextPage() {
-            hasNavigated = true;
-            window.location.href = "{{ url_for('mobile.page5_1_5') }}";
-        }
-
-        // เพิ่ม event listener สำหรับการสัมผัส
-        document.body.addEventListener('touchstart', handleInteraction);
     </script>
 </body>
 </html>

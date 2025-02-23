@@ -82,10 +82,12 @@ class MessagesController {
     }
 
     updateMessages() {
-        let messageElements = this.messages
+        // สลับลำดับข้อความให้อันใหม่อยู่ด้านล่าง
+        const reversedMessages = [...this.messages].reverse();
+        
+        let messageElements = reversedMessages
             .map(msg => `<div class="message-item">${msg.content}</div>`)
             .join('');
-        messageElements = messageElements;
         
         if (!this.isScrolling) {
             this.scrollContainer.innerHTML = messageElements;
@@ -108,9 +110,13 @@ class MessagesController {
             if (!startTime) startTime = timestamp;
             const progress = (timestamp - startTime) % duration;
             const percent = progress / duration;
-            const totalHeight = this.scrollContainer.scrollHeight / 2;
+            
+            // คำนวณระยะทางการเลื่อนจากด้านล่าง
+            const totalHeight = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
             const scrollPosition = totalHeight * percent;
+            
             this.scrollContainer.style.transform = `translateY(-${scrollPosition}px)`;
+            
             if (percent >= 0.99) {
                 startTime = timestamp;
             }

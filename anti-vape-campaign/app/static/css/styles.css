@@ -67,6 +67,8 @@ body {
     position: relative;
     z-index: 2;
     background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel-header {
@@ -79,8 +81,8 @@ body {
 
 .smoke-overlay {
     position: absolute;
-    width: 200%;
-    height: 215%;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
@@ -128,16 +130,27 @@ body {
 
 /* Messages Page Styles */
 .messages-container {
-    height: calc(100% - 120px);
-    overflow: hidden;
+    flex: 1;
     position: relative;
+    overflow: hidden;
+}
+
+.messages-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    overflow: hidden;
 }
 
 .scroll-container {
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
-    transition: transform 0.1s linear;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .message-item {
@@ -154,13 +167,14 @@ body {
 
 .total-messages {
     position: absolute;
-    bottom: 30px;
+    bottom: 15px;
     right: 20px;
     background: rgba(0, 0, 0, 0.5);
     padding: 8px 12px;
     border-radius: 5px;
     font-size: 1rem;
     border: 1px solid rgba(255, 0, 0, 0.1);
+    z-index: 2;
 }
 
 /* Emoji Page Styles */
