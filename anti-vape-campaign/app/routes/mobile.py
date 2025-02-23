@@ -65,10 +65,17 @@ def page5_1_7():
 def page5_1_8():
     try:
         user_message = session.get('user_message', 'ข้อความของคุณ')
-        return render_template('case1/page5_1_8.html', user_message=user_message)
+        # ดึงข้อมูลดอกไม้ที่ผู้ใช้เลือกจาก database
+        result = supabase.from_('guardians').select('selected_flower').eq('id', session['user_id']).execute()
+        selected_flower = result.data[0]['selected_flower'] if result.data else 1
+        return render_template('case1/page5_1_8.html', 
+                             user_message=user_message,
+                             selected_flower=selected_flower)
     except Exception as e:
         print(f"Error: {str(e)}")
-        return render_template('case1/page5_1_8.html', user_message='ข้อความของคุณ')
+        return render_template('case1/page5_1_8.html', 
+                             user_message='ข้อความของคุณ',
+                             selected_flower=1)
 
 @mobile_bp.route('/case1/page5_1_9')
 def page5_1_9():
