@@ -79,11 +79,11 @@
     <div class="video-container">
         <video id="flowerVideo" playsinline autoplay muted>
             {% if selected_flower == 1 %}
-                <source src="{{ url_for('static', filename='videos/flower-orchid.mp4') }}" type="video/mp4">
+                <source src="{{ url_for('static', filename='videos/kme-flower-orchid.mp4') }}" type="video/mp4">
             {% elif selected_flower == 2 %}
-                <source src="{{ url_for('static', filename='videos/flower-deli.mp4') }}" type="video/mp4">
+                <source src="{{ url_for('static', filename='videos/kme-flower-deli.mp4') }}" type="video/mp4">
             {% else %}
-                <source src="{{ url_for('static', filename='videos/flower-iris.mp4') }}" type="video/mp4">
+                <source src="{{ url_for('static', filename='videos/kme-flower-iris.mp4') }}" type="video/mp4">
             {% endif %}
             บราวเซอร์ของคุณไม่รองรับการเล่นวิดีโอ
         </video>
