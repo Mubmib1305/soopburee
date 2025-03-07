@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400&display=swap" rel="stylesheet">
     <title>เปรียบเทียบปอด</title>
     <style>
         * {
@@ -18,7 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Sarabun' !important; font-weight: 200;
+            font-family: 'Prompt' !important; font-weight: 200;
             color: white;
         }
 
@@ -65,7 +65,7 @@
             font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Sarabun' !important; font-weight: 200;
+            font-family: 'Prompt' !important; font-weight: 200;
             display: inline-block;
             text-decoration: none;
             margin-top: 20px;
@@ -114,12 +114,12 @@
         <div class="lung-comparison fade-in">
             <div class="lung-item">
                 <img src="{{ url_for('static', filename='images/pod-good.png') }}" alt="ปอดปกติ" class="lung-image">
-                <div class="lung-text">ปอดปกติทั่วไปเมื่ออายุ 27 ปี</div>
+                <div class="lung-text">ปอดปกติทั่วไป</div>
             </div>
             
             <div class="lung-item">
                 <img src="{{ url_for('static', filename='images/pod-bad.png') }}" alt="ปอดที่สูบบุหรี่ไฟฟ้า" class="lung-image">
-                <div class="lung-text">ปอดของคนอายุ 27 ปีที่สูบบุหรี่ไฟฟ้า</div>
+                <div class="lung-text">ปอดของคนที่สูบบุหรี่ไฟฟ้า</div>
             </div>
         </div>
         

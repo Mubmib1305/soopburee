@@ -15,7 +15,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            font-family: 'Sarabun' !important; font-weight: 200;
+            font-family: 'Prompt' !important; font-weight: 200;
             position: relative;
             overflow: hidden;
             background: #000;
@@ -85,7 +85,7 @@
             font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Sarabun' !important; font-weight: 200;
+            font-family: 'Prompt' !important; font-weight: 200;
         }
 
         .back-btn {
@@ -120,12 +120,12 @@
     <div class="container">
         <h1>เลือก 1 วิธีการดูแล<br>ที่เป็นตัวคุณมากที่สุด</h1>
         
-        <div class="choice-card" onclick="selectChoice(1, this)">
+        <div class="choice-card" onclick="selectChoice(2, this)">
             <div class="choice-text">รดน้ำสม่ำเสมอ<br>แต่ออกดอกช้ากว่า</div>
         </div>
         
-        <div class="choice-card" onclick="selectChoice(2, this)">
-            <div class="choice-text">ใส่ปุ๋ยเคมีเพื่อเร่งให้<br>ออกดอกโดยเร็ว</div>
+        <div class="choice-card" onclick="selectChoice(1, this)">
+            <div class="choice-text">ใส่สารเคมีเพื่อเร่งให้<br>ออกดอกโดยเร็ว</div>
         </div>
         
         <div class="button-container">
@@ -162,6 +162,9 @@
                 });
 
                 if (response.ok) {
+                    // ไปที่หน้าถัดไปตามที่เลือก
+                    // ตอนนี้ให้ "ใส่สารเคมี" (choice 1) ไป page5_1_1
+                    // และ "รดน้ำสม่ำเสมอ" (choice 2) ไป page5_2_1
                     const nextPage = selectedChoice === 1 ? 
                         "{{ url_for('mobile.page5_1_1') }}" : 
                         "{{ url_for('mobile.page5_2_1') }}";

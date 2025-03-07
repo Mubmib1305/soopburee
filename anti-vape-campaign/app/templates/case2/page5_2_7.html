@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400&display=swap" rel="stylesheet">
     <title>เลือกประโยคเด็ด</title>
     <style>
 * {
@@ -17,7 +17,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Sarabun' !important; 
+    font-family: 'Prompt' !important; 
     font-weight: 200;
     color: white;
     min-height: 100vh;
@@ -255,6 +255,18 @@ input[type="radio"] {
                                 <div>เลิกสูบ งดเสี่ยง คุณทำได้</div>
                             </span>
                         </label>
+                        <label class="option-label">
+                            <input type="radio" name="quote" value="7">
+                            <span class="option-text">
+                                <div>ไม่อยากติดบุหรี่ไฟฟ้า อยากติดเธอ</div>
+                            </span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="quote" value="7">
+                            <span class="option-text">
+                                <div>บุหรี่ไฟฟ้าความสูญเสียมากกว่าที่คุณคิด</div>
+                            </span>
+                        </label>
                     </div>
                 </div>
                 <!-- Slide 2: อิโมจิ -->
@@ -269,43 +281,43 @@ input[type="radio"] {
                         <label class="option-label">
                             <input type="radio" name="emoji" value="1">
                             <span class="option-text">
-                                <div style="font-size: 24px;">❤️</div>
+                                <div style="font-size: 24px;">🕊️</div>
                             </span>
                         </label>
                         <label class="option-label">
                             <input type="radio" name="emoji" value="2">
                             <span class="option-text">
-                                <div style="font-size: 24px;">💪</div>
+                                <div style="font-size: 24px;">🕯️</div>
                             </span>
                         </label>
                         <label class="option-label">
                             <input type="radio" name="emoji" value="3">
                             <span class="option-text">
-                                <div style="font-size: 24px;">✨</div>
+                                <div style="font-size: 24px;">🤍</div>
                             </span>
                         </label>
                         <label class="option-label">
                             <input type="radio" name="emoji" value="4">
                             <span class="option-text">
-                                <div style="font-size: 24px;">🌟</div>
+                                <div style="font-size: 24px;">💖</div>
                             </span>
                         </label>
                         <label class="option-label">
                             <input type="radio" name="emoji" value="5">
                             <span class="option-text">
-                                <div style="font-size: 24px;">💯</div>
+                                <div style="font-size: 24px;">🌸</div>
                             </span>
                         </label>
                         <label class="option-label">
                             <input type="radio" name="emoji" value="6">
                             <span class="option-text">
-                                <div style="font-size: 24px;">🎯</div>
+                                <div style="font-size: 24px;">🌼</div>
                             </span>
                         </label>
                         <label class="option-label">
                             <input type="radio" name="emoji" value="7">
                             <span class="option-text">
-                                <div style="font-size: 24px;">🌈</div>
+                                <div style="font-size: 24px;">🫁</div>
                             </span>
                         </label>
                     </div>
@@ -438,7 +450,7 @@ async function submitChoice() {
         });
 
         if (response.ok) {
-            window.location.href = "{{ url_for('mobile.page5_1_11') }}";
+            window.location.href = "{{ url_for('mobile.page5_2_8') }}";
         } else {
             const error = await response.json();
             alert(error.error || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
