@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- เพิ่ม link เพื่อโหลดฟอนต์ Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400;600&display=swap" rel="stylesheet">
     <title>เลือกวิธีการดูแล</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Prompt', sans-serif !important;
         }
 
         body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            font-family: 'Prompt' !important; font-weight: 200;
+            font-family: 'Prompt', sans-serif !important; 
+            font-weight: 200;
             position: relative;
             overflow: hidden;
             background: #000;
@@ -48,6 +54,8 @@
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             line-height: 1.4;
+            font-family: 'Prompt', sans-serif !important;
+            font-weight: 400;
         }
 
         .choice-card {
@@ -69,6 +77,8 @@
             font-size: 18px;
             line-height: 1.5;
             color: white;
+            font-family: 'Prompt', sans-serif !important;
+            font-weight: 200;
         }
 
         .button-container {
@@ -85,7 +95,8 @@
             font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Prompt' !important; font-weight: 200;
+            font-family: 'Prompt', sans-serif !important; 
+            font-weight: 200;
         }
 
         .back-btn {
@@ -135,6 +146,26 @@
     </div>
 
     <script>
+        // โหลดฟอนต์ Prompt ด้วย JavaScript 
+        function loadPromptFont() {
+            const fontLink = document.createElement('link');
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Prompt:wght@200;400;600&display=swap';
+            fontLink.rel = 'stylesheet';
+            document.head.appendChild(fontLink);
+            console.log('Font loaded via JavaScript');
+        }
+        
+        // โหลดฟอนต์ทันทีที่หน้าเว็บโหลด
+        window.addEventListener('DOMContentLoaded', loadPromptFont);
+        
+        // กำหนดฟอนต์ให้กับองค์ประกอบต่างๆ
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('body, h1, .choice-text, .back-btn, .submit-btn');
+            elements.forEach(el => {
+                el.style.fontFamily = "'Prompt', sans-serif";
+            });
+        });
+
         let selectedChoice = null;
 
         function selectChoice(choice, element) {
