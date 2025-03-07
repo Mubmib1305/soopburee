@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anti Vape Campaign</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400;600&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -119,7 +119,7 @@
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s ease;
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Prompt', sans-serif;
         }
 
         .next-button:hover {
@@ -144,7 +144,7 @@
     <script>
         window.onload = function() {
             new QRCode(document.getElementById("qrcode"), {
-                text: "http://192.168.1.106:5000",
+                text: "https://soopburee.onrender.com",
                 width: 256,  
                 height: 256,
                 colorDark : "#000000",

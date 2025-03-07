@@ -1,11 +1,3 @@
-/* Common Styles */
-body, h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, select, a { 
-    font-family: 'Sarabun', sans-serif;
-    font-weight: 200;
-    margin: 0;
-    padding: 0;
-}
-
 body {
     background-color: #1a1a1a;
     color: #ffffff;
@@ -30,6 +22,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 1000;
+    font-family: Prompt;
 }
 
 .back-button:hover {
@@ -77,6 +70,7 @@ body {
     padding: 15px 20px;
     background: rgba(255, 255, 255, 0.1);
     text-align: center;
+    font-family: prompt;
 }
 
 .smoke-overlay {
@@ -133,6 +127,8 @@ body {
     flex: 1;
     position: relative;
     overflow: hidden;
+    font-family: Prompt !important;
+    font-weight: 200;
 }
 
 .messages-wrapper {
@@ -142,6 +138,8 @@ body {
     width: 100%;
     height: calc(100% - 60px);
     overflow: hidden;
+    font-family: Prompt !important;
+    font-weight: 200;
 }
 
 .scroll-container {
@@ -151,6 +149,8 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column-reverse;
+    font-family: Prompt !important;
+    font-weight: 200;
 }
 
 .message-item {
@@ -163,6 +163,8 @@ body {
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(5px);
+    font-family: Prompt !important;
+    font-weight: 200;
 }
 
 .total-messages {
@@ -175,6 +177,8 @@ body {
     font-size: 1rem;
     border: 1px solid rgba(255, 0, 0, 0.1);
     z-index: 2;
+    font-family: Prompt !important;
+    font-weight: 200;
 }
 
 /* Emoji Page Styles */
@@ -184,6 +188,9 @@ body {
     height: calc(100% - 120px);
     transform-style: preserve-3d;
     perspective: 1000px;
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .emoji-bubble {
@@ -203,6 +210,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .info-item {
@@ -211,11 +221,16 @@ body {
     border-radius: 5px;
     font-size: 1rem;
     border: 1px solid rgba(255, 0, 0, 0.1);
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .hashtag {
     color: #ff4444;
+    font-family: "Prompt", sans-serif;
     font-weight: 400;
+    font-style: normal;
 }
 
 /* Animations */

@@ -60,13 +60,31 @@ class AnatomyController {
 }
 
 // Messages Page Controller
+// Messages Page Controller - แก้ไขให้เลื่อนจากล่างสุดขึ้นบนสุดแบบสมบูรณ์
 class MessagesController {
     constructor() {
         this.scrollContainer = document.getElementById('scrollMessages');
         this.totalMessages = document.getElementById('totalMessages');
+        this.messagesWrapper = document.querySelector('.messages-wrapper');
         this.messages = [];
         this.isScrolling = false;
+        this.animationId = null;
+        
+        // โหลดฟอนต์ Prompt แบบโปรแกรม
+        this.loadPromptFont();
+        
         this.init();
+    }
+
+    // เพิ่มเมธอดเพื่อโหลดฟอนต์ Prompt
+    loadPromptFont() {
+        // สร้าง link element เพื่อโหลดฟอนต์ Prompt
+        const fontLink = document.createElement('link');
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Prompt:wght@200;400;600&display=swap';
+        fontLink.rel = 'stylesheet';
+        document.head.appendChild(fontLink);
+        
+        console.log('Prompt font link added to document head');
     }
 
     init() {
@@ -85,49 +103,108 @@ class MessagesController {
         // สลับลำดับข้อความให้อันใหม่อยู่ด้านล่าง
         const reversedMessages = [...this.messages].reverse();
         
-        let messageElements = reversedMessages
-            .map(msg => `<div class="message-item">${msg.content}</div>`)
-            .join('');
-        
-        if (!this.isScrolling) {
-            this.scrollContainer.innerHTML = messageElements;
-            this.startScrolling();
+        // ถ้าไม่มีข้อความเลย ให้สร้างข้อความจำลอง 1 อัน
+        let messageElements;
+        if (reversedMessages.length === 0) {
+            messageElements = `<div class="message-item" style="font-family: 'Prompt', sans-serif !important; font-weight: 200;">ยังไม่มีข้อความ</div>`;
         } else {
-            const currentScroll = this.scrollContainer.style.transform;
-            this.scrollContainer.innerHTML = messageElements;
-            this.scrollContainer.style.transform = currentScroll;
+            messageElements = reversedMessages
+                .map(msg => `<div class="message-item" style="font-family: 'Prompt', sans-serif !important; font-weight: 200;">${msg.content}</div>`)
+                .join('');
         }
+        
+        this.scrollContainer.innerHTML = messageElements;
+        
+        // ตั้งค่า CSS เพื่อให้ข้อความเริ่มจากล่างสุดของหน้าจอ
+        this.scrollContainer.style.position = 'absolute';
+        this.scrollContainer.style.bottom = '0';
+        this.scrollContainer.style.width = '100%';
+        this.scrollContainer.style.display = 'flex';
+        this.scrollContainer.style.flexDirection = 'column';
+        this.scrollContainer.style.fontFamily = "'Prompt', sans-serif";
+        
+        // รีเซ็ตการเลื่อน
+        this.scrollContainer.style.transform = 'translateY(0)';
+        
+        // หยุดอนิเมชันเดิม (ถ้ามี) ก่อนเริ่มใหม่
+        if (this.isScrolling) {
+            cancelAnimationFrame(this.animationId);
+        }
+        
+        // เริ่มการเลื่อนใหม่
+        setTimeout(() => this.startScrolling(), 100); // รอให้ DOM อัปเดตก่อนเริ่มเลื่อน
     }
 
     startScrolling() {
-        if (this.isScrolling) return;
+        if (!this.scrollContainer) return;
+        
         this.isScrolling = true;
-
-        const duration = 30000;
-        let startTime = null;
-
+        
+        // ความสูงของพื้นที่แสดงผล
+        const viewportHeight = this.messagesWrapper.clientHeight;
+        
+        // ความสูงของข้อความทั้งหมด
+        const messagesHeight = this.scrollContainer.clientHeight;
+        
+        // คำนวณระยะทางการเลื่อนทั้งหมด (ข้อความล่างสุดจะต้องเลื่อนขึ้นไปพ้นขอบบนของพื้นที่แสดงผล)
+        let totalScrollDistance;
+        
+        // ถ้าความสูงข้อความน้อยกว่าความสูงหน้าจอ ให้เลื่อนแบบพอดี
+        if (messagesHeight <= viewportHeight) {
+            totalScrollDistance = viewportHeight + messagesHeight;
+        } else {
+            totalScrollDistance = messagesHeight;
+        }
+        
+        // จุดเริ่มต้นการเลื่อน
+        let startPosition = 0;
+        
+        // ความเร็วในการเลื่อน (พิกเซลต่อเฟรม)
+        const scrollSpeed = 0.5;
+        
+        // ระยะเวลาในการหยุดพักที่จุดเริ่มต้น (มิลลิวินาที)
+        const pauseDuration = 2000;
+        
+        // เวลาล่าสุดที่รีเซ็ตการเลื่อน
+        let lastResetTime = 0;
+        // สถานะการพัก
+        let isPaused = false;
+        
         const animate = (timestamp) => {
-            if (!startTime) startTime = timestamp;
-            const progress = (timestamp - startTime) % duration;
-            const percent = progress / duration;
-            
-            // คำนวณระยะทางการเลื่อนจากด้านล่าง
-            const totalHeight = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
-            const scrollPosition = totalHeight * percent;
-            
-            this.scrollContainer.style.transform = `translateY(-${scrollPosition}px)`;
-            
-            if (percent >= 0.99) {
-                startTime = timestamp;
+            // ถ้ากำลังพัก ตรวจสอบว่าพักครบเวลาหรือยัง
+            if (isPaused) {
+                if (timestamp - lastResetTime >= pauseDuration) {
+                    isPaused = false;
+                }
+            } else {
+                // เพิ่มตำแหน่งการเลื่อน
+                startPosition += scrollSpeed;
+                
+                // เมื่อเลื่อนจนครบระยะทางทั้งหมด รีเซ็ตกลับไปจุดเริ่มต้น
+                if (startPosition >= totalScrollDistance) {
+                    startPosition = 0;
+                    lastResetTime = timestamp;
+                    isPaused = true; // เริ่มพักเมื่อเริ่มใหม่
+                }
+                
+                // อัปเดตตำแหน่งการเลื่อน
+                this.scrollContainer.style.transform = `translateY(-${startPosition}px)`;
             }
-            requestAnimationFrame(animate);
+            
+            // วนลูปอนิเมชัน
+            this.animationId = requestAnimationFrame(animate);
         };
-
-        requestAnimationFrame(animate);
+        
+        // เริ่มอนิเมชัน
+        this.animationId = requestAnimationFrame(animate);
+        
+        // แสดงข้อมูลเพื่อการดีบัก
+        console.log(`Scroll Debug - Viewport Height: ${viewportHeight}px, Messages Height: ${messagesHeight}px, Total Scroll Distance: ${totalScrollDistance}px`);
     }
 
     updateCounter() {
         this.totalMessages.textContent = `จำนวนข้อความทั้งหมด: ${this.messages.length}`;
+        this.totalMessages.style.fontFamily = "'Prompt', sans-serif";
     }
 }
 
