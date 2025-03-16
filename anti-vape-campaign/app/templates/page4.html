@@ -197,8 +197,8 @@
                     // ตอนนี้ให้ "ใส่สารเคมี" (choice 1) ไป page5_1_1
                     // และ "รดน้ำสม่ำเสมอ" (choice 2) ไป page5_2_1
                     const nextPage = selectedChoice === 1 ? 
-                        "{{ url_for('mobile.page5_1_1') }}" : 
-                        "{{ url_for('mobile.page5_2_1') }}";
+                        "{{ url_for('mobile.page5_2_1') }}" : 
+                        "{{ url_for('mobile.page5_1_1') }}";
                     window.location.href = nextPage;
                 } else {
                     alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');

@@ -38,18 +38,29 @@
 
        .message-card {
            background: linear-gradient(135deg, #FF69B4, #DA70D6);
-           padding: 20px;
            margin: 20px 0;
            position: relative;
            overflow: hidden;
            display: flex;
            align-items: center;
+           border-radius: 15px;
+       }
+
+       .flower-container {
+           width: 35%;
+           position: relative;
+           overflow: hidden;
+           margin-right: 10px;
+           display: flex;
+           justify-content: center;
+           align-items: center;
        }
 
        .flower-image {
-           width: 30%;
+           width: 150%;
            height: auto;
-           margin-right: 10px;
+           transform: scale(1.2);
+           margin-left: -20px;
        }
 
        .message-text-container {
@@ -57,7 +68,8 @@
            background: rgba(255, 255, 255, 0.1);
            border-radius: 15px;
            padding: 15px;
-           margin-right: 10px;
+           margin-right: 5px;
+           z-index: 1;
        }
 
        .message-text {
@@ -127,27 +139,28 @@
    <div class="container">
        <div class="title">
            <div style="display: flex; align-items: center; flex-direction: column; gap:20px;">
-               <div style="font-size: 26px;">เก็บมันไว้อย่างดีนะ</div>
-               <div>เมื่อไหร่ที่อยากใส่สารเคมีกับดอกไม้</div>
-               <div>ลองมองภาพนี้อีกครั้ง ให้มันเป็นประกายเล็ก ๆ</div>
-               <div style="font-size: 26px;">ที่ช่วยจุดไฟในใจคุณ อีกครั้ง</div>
+               <div style="font-size: 26px;">เก็บภาพนี้ไว้ แล้วส่งให้พวกเขา</div>
+               <div>เพื่อเป็นสัญญาณเตือนว่า</div>
+               <div>คุณเป็นห่วงพวกเขามากแค่ไหน</div>
            </div>
        </div>
 
        <div class="message-card" id="messageCard">
-        {% if selected_flower == 1 %}
-        <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="กล้วยไม้" class="flower-image">
-        {% elif selected_flower == 2 %}
-        <img src="{{ url_for('static', filename='images/flower_YL.png') }}" alt="คาลล่าลิลลี่" class="flower-image">
-        {% elif selected_flower == 3 %}
-        <img src="{{ url_for('static', filename='images/flower_PP.png') }}" alt="ไอริส" class="flower-image">
-        {% else %}
-        <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="ดอกไม้" class="flower-image">
-        {% endif %}
-        <div class="message-text-container">
-            <div class="message-text">{{ user_message }}</div>
-        </div>
-    </div>
+           <div class="flower-container">
+               {% if selected_flower == 1 %}
+               <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="กล้วยไม้" class="flower-image">
+               {% elif selected_flower == 2 %}
+               <img src="{{ url_for('static', filename='images/flower_YL.png') }}" alt="คาลล่าลิลลี่" class="flower-image">
+               {% elif selected_flower == 3 %}
+               <img src="{{ url_for('static', filename='images/flower_PP.png') }}" alt="ไอริส" class="flower-image">
+               {% else %}
+               <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="ดอกไม้" class="flower-image">
+               {% endif %}
+           </div>
+           <div class="message-text-container">
+               <div class="message-text">{{ user_message }}</div>
+           </div>
+       </div>
 
        <div class="button-container">
            <button onclick="downloadCard()" class="btn download-btn">เก็บภาพ</button>
