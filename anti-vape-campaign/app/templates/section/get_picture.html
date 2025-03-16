@@ -148,13 +148,13 @@
        <div class="message-card" id="messageCard">
            <div class="flower-container">
                {% if selected_flower == 1 %}
-               <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="กล้วยไม้" class="flower-image">
+               <img src="{{ url_for('static', filename='images/Flower_1.png') }}" alt="กล้วยไม้" class="flower-image">
                {% elif selected_flower == 2 %}
-               <img src="{{ url_for('static', filename='images/flower_YL.png') }}" alt="คาลล่าลิลลี่" class="flower-image">
+               <img src="{{ url_for('static', filename='images/Flower_2.png') }}" alt="คาลล่าลิลลี่" class="flower-image">
                {% elif selected_flower == 3 %}
-               <img src="{{ url_for('static', filename='images/flower_PP.png') }}" alt="ไอริส" class="flower-image">
+               <img src="{{ url_for('static', filename='images/Flower_3.png') }}" alt="ไอริส" class="flower-image">
                {% else %}
-               <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="ดอกไม้" class="flower-image">
+               <img src="{{ url_for('static', filename='images/Flower_1.png') }}" alt="ดอกไม้" class="flower-image">
                {% endif %}
            </div>
            <div class="message-text-container">
@@ -164,7 +164,7 @@
 
        <div class="button-container">
            <button onclick="downloadCard()" class="btn download-btn">เก็บภาพ</button>
-           <a href="{{ url_for('mobile.page5_1_9') }}" class="btn next-btn">ถัดไป</a>
+           <a href="{{ url_for('mobile.the_end') }}" class="btn next-btn">ถัดไป</a>
        </div>
    </div>
 

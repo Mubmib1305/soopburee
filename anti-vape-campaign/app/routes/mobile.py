@@ -142,6 +142,10 @@ def the_end():
 def thank_you():
     return render_template('section/thank_you.html')
 
+@mobile_bp.route('/get_picture')
+def get_picture():
+    return render_template('section/get_picture')
+
 """<<-------------------API Functions------------------->>"""
 # API สำหรับสร้างข้อความ
 @mobile_bp.route('/api/messages', methods=['POST'])

@@ -100,7 +100,7 @@
     <div class="bg-gradient"></div>
     <div class="container">
         <div class="title">
-            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px; color: #666;">
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 40px;">
                 <div>เวลาเหลือน้อยเต็มที</div>
                 <div>หากคุณเห็นใครกำลังตกอยู่ในอัน</div>
                 <div>ตรายจากบุหรี่ไฟฟ้ารีบช่วยพวกเขา</div>
@@ -145,7 +145,7 @@
                 });
 
                 if (response.ok) {
-                    window.location.href = "{{ url_for('mobile.the_end') }}";
+                    window.location.href = "{{ url_for('mobile.get_picture') }}";
                 } else {
                     alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
                 }
