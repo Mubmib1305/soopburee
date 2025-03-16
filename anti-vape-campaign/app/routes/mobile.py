@@ -144,7 +144,19 @@ def thank_you():
 
 @mobile_bp.route('/get_picture')
 def get_picture():
-    return render_template('section/get_picture')
+    try:
+        user_message = session.get('user_message', 'ข้อความของคุณ')
+        # ดึงข้อมูลดอกไม้ที่ผู้ใช้เลือกจาก database
+        result = supabase.from_('guardians').select('selected_flower').eq('id', session['user_id']).execute()
+        selected_flower = result.data[0]['selected_flower'] if result.data else 1
+        return render_template('section/get_picture.html', 
+                             user_message=user_message,
+                             selected_flower=selected_flower)
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return render_template('section/get_picture.html', 
+                             user_message='ข้อความของคุณ',
+                             selected_flower=1)
 
 """<<-------------------API Functions------------------->>"""
 # API สำหรับสร้างข้อความ
