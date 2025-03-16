@@ -104,7 +104,9 @@ def page5_2_2():
 
 @mobile_bp.route('/case2/page5_2_3')
 def page5_2_3():
-    return render_template('case2/page5_2_3.html')
+    result = supabase.from_('guardians').select('selected_flower').eq('id', session['user_id']).execute()
+    selected_flower = result.data[0]['selected_flower'] if result.data else 1
+    return render_template('case2/page5_2_3.html', selected_flower=selected_flower)
 
 @mobile_bp.route('/case2/page5_2_4')
 def page5_2_4():

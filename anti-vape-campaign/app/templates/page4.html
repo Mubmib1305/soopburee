@@ -131,11 +131,11 @@
     <div class="container">
         <h1>เลือก 1 สถานการณ์<br>ที่คุณต้องการมอบดอกไม้</h1>
         
-        <div class="choice-card" onclick="selectChoice(2, this)">
+        <div class="choice-card" onclick="selectChoice(1, this)">
             <div class="choice-text">เด็ก ญ ข. อายุ 15 ปี</div>
         </div>
         
-        <div class="choice-card" onclick="selectChoice(1, this)">
+        <div class="choice-card" onclick="selectChoice(2, this)">
             <div class="choice-text">นาย ค. อายุ 32 ปี</div>
         </div>
         
@@ -197,8 +197,8 @@
                     // ตอนนี้ให้ "ใส่สารเคมี" (choice 1) ไป page5_1_1
                     // และ "รดน้ำสม่ำเสมอ" (choice 2) ไป page5_2_1
                     const nextPage = selectedChoice === 1 ? 
-                        "{{ url_for('mobile.page5_2_1') }}" : 
-                        "{{ url_for('mobile.page5_1_1') }}";
+                        "{{ url_for('mobile.page5_1_1') }}" : 
+                        "{{ url_for('mobile.page5_2_1') }}";
                     window.location.href = nextPage;
                 } else {
                     alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
