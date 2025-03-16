@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;400&display=swap" rel="stylesheet">
+   <title>แชร์ข้อความ</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           background-color: #000;
+           min-height: 100vh;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           font-family: 'Prompt' !important; font-weight: 200;
+           color: white;
+       }
+
+       .container {
+           width: 90%;
+           max-width: 400px;
+           padding: 20px;
+           text-align: center;
+       }
+
+       .title {
+           font-size: 18px;
+           line-height: 1.6;
+           margin-bottom: 20px;
+           text-align: center;
+       }
+
+       .message-card {
+           background: linear-gradient(135deg, #FF69B4, #DA70D6);
+           margin: 20px 0;
+           position: relative;
+           overflow: hidden;
+           display: flex;
+           align-items: center;
+           border-radius: 15px;
+       }
+
+       .flower-container {
+           width: 35%;
+           position: relative;
+           overflow: hidden;
+           margin-right: 10px;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+       }
+
+       .flower-image {
+           width: 150%;
+           height: auto;
+           transform: scale(1.2);
+           margin-left: -20px;
+       }
+
+       .message-text-container {
+           flex-grow: 1;
+           background: rgba(255, 255, 255, 0.1);
+           border-radius: 15px;
+           padding: 15px;
+           margin-right: 5px;
+           z-index: 1;
+       }
+
+       .message-text {
+           color: white;
+           font-size: 18px;
+           line-height: 1.5;
+           text-align: center;
+           word-wrap: break-word;
+       }
+
+       .button-container {
+           display: flex;
+           gap: 10px;
+           justify-content: center;
+           margin-top: 20px;
+       }
+
+       .btn {
+           padding: 12px 25px;
+           border: none;
+           border-radius: 25px;
+           font-size: 16px;
+           cursor: pointer;
+           transition: all 0.3s ease;
+           font-family: 'Prompt' !important; font-weight: 200;
+           text-decoration: none;
+           display: inline-block;
+       }
+
+       .download-btn {
+           background-color: #ffd700;
+           color: black;
+       }
+
+       .next-btn {
+           background-color: white;
+           color: black;
+       }
+
+       .btn:hover {
+           transform: scale(1.05);
+       }
+
+       .bg-gradient {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -1;
+       }
+
+       .background-gif {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+           z-index: -2;
+       }
+   </style>
+</head>
+<body>
+   <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
+   <div class="bg-gradient"></div>
+   <div class="container">
+       <div class="title">
+           <div style="display: flex; align-items: center; flex-direction: column; gap:20px;">
+               <div style="font-size: 26px;">เก็บภาพนี้ไว้ แล้วส่งให้พวกเขา</div>
+               <div>เพื่อเป็นสัญญาณเตือนว่า</div>
+               <div>คุณเป็นห่วงพวกเขามากแค่ไหน</div>
+           </div>
+       </div>
+
+       <div class="message-card" id="messageCard">
+           <div class="flower-container">
+               {% if selected_flower == 1 %}
+               <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="กล้วยไม้" class="flower-image">
+               {% elif selected_flower == 2 %}
+               <img src="{{ url_for('static', filename='images/flower_YL.png') }}" alt="คาลล่าลิลลี่" class="flower-image">
+               {% elif selected_flower == 3 %}
+               <img src="{{ url_for('static', filename='images/flower_PP.png') }}" alt="ไอริส" class="flower-image">
+               {% else %}
+               <img src="{{ url_for('static', filename='images/flower_PK.png') }}" alt="ดอกไม้" class="flower-image">
+               {% endif %}
+           </div>
+           <div class="message-text-container">
+               <div class="message-text">{{ user_message }}</div>
+           </div>
+       </div>
+
+       <div class="button-container">
+           <button onclick="downloadCard()" class="btn download-btn">เก็บภาพ</button>
+           <a href="{{ url_for('mobile.page5_1_9') }}" class="btn next-btn">ถัดไป</a>
+       </div>
+   </div>
+
+   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+   <script>
+       async function downloadCard() {
+           try {
+               const card = document.getElementById('messageCard');
+               const canvas = await html2canvas(card);
+               
+               const link = document.createElement('a');
+               link.download = 'my-message.png';
+               link.href = canvas.toDataURL('image/png');
+               link.click();
+           } catch (error) {
+               console.error('Error:', error);
+               alert('เกิดข้อผิดพลาดในการดาวน์โหลดภาพ');
+           }
+       }
+   </script>
+</body>
+</html>

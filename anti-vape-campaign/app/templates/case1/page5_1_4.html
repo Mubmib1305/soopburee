@@ -92,7 +92,7 @@
                     hasNavigated = true;
                     // รอ 1 วินาทีก่อนเปลี่ยนหน้า
                     setTimeout(() => {
-                        window.location.href = "{{ url_for('mobile.page5_1_5') }}";
+                        window.location.href = "{{ url_for('mobile.sent_massage') }}";
                     }, 1000);
                 }
             });
@@ -118,7 +118,7 @@
                 if (!hasNavigated && !videoFinished) {
                     videoFinished = true;
                     hasNavigated = true;
-                    window.location.href = "{{ url_for('mobile.page5_1_5') }}";
+                    window.location.href = "{{ url_for('mobile.sent_massage') }}";
                 }
             }, 30000); // 30 วินาที
         });
