@@ -126,6 +126,22 @@ def page5_2_7():
 def page5_2_8():
     return render_template('case2/page5_2_8.html')
 
+@mobile_bp.route('/sent-massage')
+def sent_massage():
+    return render_template('section/sent_massage.html')
+
+@mobile_bp.route('/comment')
+def comment():
+    return render_template('section/comment.html')
+
+@mobile_bp.route('/the-end')
+def the_end():
+    return render_template('section/the_end.html')
+
+@mobile_bp.route('/thank-you')
+def thank_you():
+    return render_template('section/thank_you.html')
+
 """<<-------------------API Functions------------------->>"""
 # API สำหรับสร้างข้อความ
 @mobile_bp.route('/api/messages', methods=['POST'])
