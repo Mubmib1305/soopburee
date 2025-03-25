@@ -44,18 +44,8 @@ def get_active_messages():
 
             flower_id = item.get('selected_flower')
             if flower_id:
-                flower_emoji = ""
-                if flower_id == 1:
-                    flower_emoji = "🌸"
-                elif flower_id == 2:
-                    flower_emoji = "🌺"
-                elif flower_id == 3:
-                    flower_emoji = "🌷"
-                else:
-                    flower_emoji = "🌹"
-
                 emojis.append({
-                    'content': flower_emoji,
+                    'content': '',
                     'type': 'flower',
                     'flower_id': flower_id,
                     'timestamp': item.get('created_at', str(datetime.now()))

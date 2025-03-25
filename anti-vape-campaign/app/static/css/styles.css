@@ -201,6 +201,9 @@ body {
     transform-style: preserve-3d;
     backface-visibility: hidden;
     pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .info-container {

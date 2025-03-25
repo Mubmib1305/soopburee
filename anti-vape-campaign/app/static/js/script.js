@@ -226,12 +226,9 @@ class EmojiController {
         
         if (data.emojis && Array.isArray(data.emojis)) {
             data.emojis.forEach(emoji => {
-                if (emoji && emoji.content && 
-                    emoji.content !== 'EMPTY' && 
-                    emoji.content !== 'NULL' && 
-                    emoji.content.trim() !== '') {
+                if (emoji && emoji.type === 'flower' && emoji.flower_id) {
                     newEmojis.push({
-                        content: emoji.content.trim(),
+                        content: '',  // ไม่ใช้ content แต่จะใช้ flower_id แทน
                         type: emoji.type || 'emoji',
                         flower_id: emoji.flower_id || null,
                         timestamp: new Date(emoji.timestamp || Date.now())
@@ -243,8 +240,8 @@ class EmojiController {
         newEmojis.sort((a, b) => b.timestamp - a.timestamp);
 
         if (this.emojis.length !== newEmojis.length || 
-            JSON.stringify(this.emojis.map(e => e.content)) !== 
-            JSON.stringify(newEmojis.map(e => e.content))) {
+            JSON.stringify(this.emojis.map(e => e.flower_id)) !== 
+            JSON.stringify(newEmojis.map(e => e.flower_id))) {
             
             this.stopAllAnimations();
             this.emojis = newEmojis;
@@ -303,7 +300,7 @@ class EmojiController {
             }
             
             const emoji = this.emojis[index];
-            this.createBubbles(emoji.content, emoji.type, emoji.flower_id);
+            this.createBubbles('', emoji.type, emoji.flower_id);
             
             setTimeout(() => {
                 this.stopAllAnimations();
@@ -429,7 +426,6 @@ class EmojiController {
         }, 100);
     }
 }
-
 // Page Initialization Functions
 function initAnatomyPage() {
     new AnatomyController();
