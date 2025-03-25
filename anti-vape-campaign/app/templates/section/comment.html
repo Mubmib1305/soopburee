@@ -109,17 +109,7 @@ input[type="radio"] {
     z-index: -2;
 }
 
-.slider-nav {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px;
-    z-index: 1000;
-}
-
-.nav-btn {
+.submit-btn {
     background: rgba(255, 255, 255, 0.2);
     border: none;
     padding: 10px 20px;
@@ -129,35 +119,20 @@ input[type="radio"] {
     font-family: 'Prompt', sans-serif;
     transition: all 0.3s ease;
     width: 120px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }
 
-.nav-btn:hover {
+.submit-btn:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.nav-btn:disabled {
+.submit-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-.content-slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    transition: opacity 0.3s ease;
-    opacity: 0;
-    visibility: hidden;
-}
-
-.slide.active {
-    opacity: 1;
-    visibility: visible;
 }
 
 @keyframes fadeInRight {
@@ -171,23 +146,8 @@ input[type="radio"] {
     }
 }
 
-@keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
 .animate-in {
     animation: fadeInRight 0.5s ease forwards;
-}
-
-.animate-back {
-    animation: fadeInLeft 0.5s ease forwards;
 }
     </style>
 </head>
@@ -195,289 +155,152 @@ input[type="radio"] {
     <img src="{{ url_for('static', filename='images/smoke2.gif') }}" alt="พื้นหลัง" class="background-gif">
     <div class="bg-gradient"></div>
     <div class="container">
-        <div class="content-slider">
-            <div class="slider-container">
-                <!-- Slide 1: ประโยคเด็ด -->
-                <div class="slide">
-                    <div class="title">
-                        <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 20px;">
-                            <div>เลือก 1 ประโยคเพื่อ</div>
-                            <div>เป็นพลังสำคัญสำหรับคนอื่น ๆ</div>
-                            <div>บอกให้พวกเขาได้เห็นชัด ๆ เลย</div>
-                        </div>
-                    </div>
-                    <div class="options-container">
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="1">
-                            <span class="option-text">
-                                <div>ทุกวันคือโอกาสให้เริ่มต้นใหม่</div>
-                                <div>และทำสิ่งที่ดีต่อสุขภาพของคุณ</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="2">
-                            <span class="option-text">
-                                <div>บุหรี่ไฟฟ้าก็เหมือนคนหลายใจ</div>
-                                <div>ทำร้ายใครทีละหลายคน</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="3">
-                            <span class="option-text">
-                                <div>บุหรี่ไฟฟ้ามีพิษ..</div>
-                                <div>ทำลายชีวิตตัวเองและคนรอบข้าง</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="4">
-                            <span class="option-text">
-                                <div>เปลี่ยนจากสายควัน</div>
-                                <div>มาเป็นสายเฮลตี้ยังทันนะ</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="5">
-                            <span class="option-text">
-                                <div>การเริ่มต้นใหม่ดีกว่าการไม่เริ่มเลย</div>
-                                <div>สู้ ๆ กับการเปลี่ยนแปลง</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="6">
-                            <span class="option-text">
-                                <div>สูบบุหรี่ไฟฟ้าไม่เท่</div>
-                                <div>กินบุฟเฟ่ดีกว่า</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="7">
-                            <span class="option-text">
-                                <div>เลิกสูบ งดเสี่ยง คุณทำได้</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="7">
-                            <span class="option-text">
-                                <div>ไม่อยากติดบุหรี่ไฟฟ้า อยากติดเธอ</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="quote" value="7">
-                            <span class="option-text">
-                                <div>บุหรี่ไฟฟ้าความสูญเสียมากกว่าที่คุณคิด</div>
-                            </span>
-                        </label>
-                    </div>
-                </div>
-                <!-- Slide 2: อิโมจิ -->
-                <div class="slide">
-                    <div class="title">
-                        <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 20px;">
-                            <div>เลือกอิโมจิที่ใช่</div>
-                            <div>บอกให้พวกเขาได้เห็นชัด ๆ เลย</div>
-                        </div>
-                    </div>
-                    <div class="options-container">
-                        <label class="option-label">
-                            <input type="radio" name="emoji" value="1">
-                            <span class="option-text">
-                                <div style="font-size: 24px;">🕊️</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="emoji" value="2">
-                            <span class="option-text">
-                                <div style="font-size: 24px;">🕯️</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="emoji" value="3">
-                            <span class="option-text">
-                                <div style="font-size: 24px;">🤍</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="emoji" value="4">
-                            <span class="option-text">
-                                <div style="font-size: 24px;">💖</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="emoji" value="5">
-                            <span class="option-text">
-                                <div style="font-size: 24px;">🌸</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="emoji" value="6">
-                            <span class="option-text">
-                                <div style="font-size: 24px;">🌼</div>
-                            </span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="emoji" value="7">
-                            <span class="option-text">
-                                <div style="font-size: 24px;">🫁</div>
-                            </span>
-                        </label>
-                    </div>
-                </div>
+        <div class="title">
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 20px;">
+                <div>เลือก 1 ประโยคเพื่อ</div>
+                <div>เป็นพลังสำคัญสำหรับคนอื่น ๆ</div>
+                <div>บอกให้พวกเขาได้เห็นชัด ๆ เลย</div>
             </div>
         </div>
-        <div class="slider-nav">
-            <button class="nav-btn" id="prevBtn" disabled>ข้อความ</button>
-            <button class="nav-btn" id="nextBtn">อิโมจิ</button>
+        <div class="options-container">
+            <label class="option-label">
+                <input type="radio" name="quote" value="1">
+                <span class="option-text">
+                    <div>ทุกวันคือโอกาสให้เริ่มต้นใหม่</div>
+                    <div>และทำสิ่งที่ดีต่อสุขภาพของคุณ</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="2">
+                <span class="option-text">
+                    <div>บุหรี่ไฟฟ้าก็เหมือนคนหลายใจ</div>
+                    <div>ทำร้ายใครทีละหลายคน</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="3">
+                <span class="option-text">
+                    <div>บุหรี่ไฟฟ้ามีพิษ..</div>
+                    <div>ทำลายชีวิตตัวเองและคนรอบข้าง</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="4">
+                <span class="option-text">
+                    <div>เปลี่ยนจากสายควัน</div>
+                    <div>มาเป็นสายเฮลตี้ยังทันนะ</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="5">
+                <span class="option-text">
+                    <div>การเริ่มต้นใหม่ดีกว่าการไม่เริ่มเลย</div>
+                    <div>สู้ ๆ กับการเปลี่ยนแปลง</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="6">
+                <span class="option-text">
+                    <div>สูบบุหรี่ไฟฟ้าไม่เท่</div>
+                    <div>กินบุฟเฟ่ดีกว่า</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="7">
+                <span class="option-text">
+                    <div>เลิกสูบ งดเสี่ยง คุณทำได้</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="8">
+                <span class="option-text">
+                    <div>ไม่อยากติดบุหรี่ไฟฟ้า อยากติดเธอ</div>
+                </span>
+            </label>
+            <label class="option-label">
+                <input type="radio" name="quote" value="9">
+                <span class="option-text">
+                    <div>บุหรี่ไฟฟ้าความสูญเสียมากกว่าที่คุณคิด</div>
+                </span>
+            </label>
         </div>
+        <button class="submit-btn" id="submitBtn" disabled>เสร็จสิ้น</button>
     </div>
 
     <script>
-//จัดการเลือกประโยคและอิโมจิ
-let selectedQuoteId = null;
-let selectedQuoteText = null;
-let selectedEmoji = null;
-let currentSlide = 0;
-const totalSlides = 2;
+        let selectedQuoteId = null;
+        let selectedQuoteText = null;
 
-function clearSelections(type) {
-    if (type === 'quote') {
-        // ล้างเฉพาะการเลือกข้อความ
+        function clearSelections() {
+            document.querySelectorAll('input[name="quote"]').forEach(radio => {
+                radio.closest('.option-label').classList.remove('selected');
+            });
+            selectedQuoteId = null;
+            selectedQuoteText = null;
+        }
+
         document.querySelectorAll('input[name="quote"]').forEach(radio => {
-            radio.closest('.option-label').classList.remove('selected');
-        });
-        selectedQuoteId = null;
-        selectedQuoteText = null;
-    } else if (type === 'emoji') {
-        // ล้างเฉพาะการเลือกอิโมจิ
-        document.querySelectorAll('input[name="emoji"]').forEach(radio => {
-            radio.closest('.option-label').classList.remove('selected');
-        });
-        selectedEmoji = null;
-    }
-}
-
-// จัดการการเลือกประโยคเด็ด
-document.querySelectorAll('input[name="quote"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        clearSelections('quote');
-        selectedQuoteId = this.value;
-        this.closest('.option-label').classList.add('selected');
-        selectedQuoteText = this.closest('.option-label').querySelector('.option-text').textContent.trim();
-        document.getElementById('nextBtn').disabled = false;
-    });
-});
-
-// จัดการการเลือกอิโมจิ
-document.querySelectorAll('input[name="emoji"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        clearSelections('emoji');
-        this.closest('.option-label').classList.add('selected');
-        const emojiElement = this.closest('.option-label').querySelector('.option-text div');
-        selectedEmoji = emojiElement.textContent;
-        document.getElementById('nextBtn').disabled = false;
-    });
-});
-
-function updateSlidePosition() {
-    const slides = document.querySelectorAll('.slide');
-    slides.forEach((slide, index) => {
-        if (index === currentSlide) {
-            slide.classList.add('active');
-        } else {
-            slide.classList.remove('active');
-        }
-    });
-    
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    prevBtn.disabled = currentSlide === 0;
-    
-    if (currentSlide === totalSlides - 1) {
-        nextBtn.textContent = "เสร็จสิ้น";
-        nextBtn.disabled = !selectedEmoji;
-    } else {
-        nextBtn.textContent = "ถัดไป";
-        nextBtn.disabled = !selectedQuoteText;
-    }
-}
-
-document.getElementById('prevBtn').addEventListener('click', () => {
-    if (currentSlide > 0) {
-        currentSlide--;
-        updateSlidePosition();
-    }
-});
-
-document.getElementById('nextBtn').addEventListener('click', () => {
-    if (currentSlide === totalSlides - 1) {
-        submitChoice();
-    } else if (currentSlide < totalSlides - 1) {
-        if (!selectedQuoteText) {
-            alert('กรุณาเลือกข้อความ');
-            return;
-        }
-        currentSlide++;
-        updateSlidePosition();
-    }
-});
-
-async function submitChoice() {
-    if (!selectedQuoteText) {
-        alert('กรุณาเลือกข้อความ');
-        return;
-    }
-    if (!selectedEmoji) {
-        alert('กรุณาเลือกอิโมจิ');
-        return;
-    }
-
-    try {
-        const nextBtn = document.getElementById('nextBtn');
-        nextBtn.disabled = true;
-        nextBtn.textContent = "กำลังบันทึก...";
-
-        const response = await fetch('/api/select-quote', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                quote_id: selectedQuoteId,
-                selected_quote: selectedQuoteText,
-                selected_emoji: selectedEmoji,
-                quote_type: 'message'  // ประเภทเป็น message เสมอเมื่อเลือกข้อความ
-            })
+            radio.addEventListener('change', function() {
+                clearSelections();
+                selectedQuoteId = this.value;
+                this.closest('.option-label').classList.add('selected');
+                selectedQuoteText = this.closest('.option-label').querySelector('.option-text').textContent.trim();
+                document.getElementById('submitBtn').disabled = false;
+            });
         });
 
-        if (response.ok) {
-            window.location.href = "{{ url_for('mobile.thank_you') }}";
-        } else {
-            const error = await response.json();
-            alert(error.error || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
-            nextBtn.disabled = false;
-            nextBtn.textContent = "เสร็จสิ้น";
+        document.getElementById('submitBtn').addEventListener('click', submitChoice);
+
+        async function submitChoice() {
+            if (!selectedQuoteText) {
+                alert('กรุณาเลือกข้อความ');
+                return;
+            }
+
+            try {
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = "กำลังบันทึก...";
+
+                const response = await fetch('/api/select-quote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        quote_id: selectedQuoteId,
+                        selected_quote: selectedQuoteText,
+                        selected_emoji: "❤️",
+                        quote_type: 'message' 
+                    })
+                });
+
+                if (response.ok) {
+                    window.location.href = "{{ url_for('mobile.thank_you') }}";
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "เสร็จสิ้น";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+                submitBtn.disabled = false;
+                submitBtn.textContent = "เสร็จสิ้น";
+            }
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
-        nextBtn.disabled = false;
-        nextBtn.textContent = "เสร็จสิ้น";
-    }
-}
 
-// Initialize animations for options
-document.querySelectorAll('.option-label').forEach((option, index) => {
-    option.style.opacity = '0';
-    option.style.transform = 'translateX(20px)';
-    setTimeout(() => {
-        option.style.transition = 'all 0.3s ease';
-        option.style.transitionDelay = (index * 0.05) + 's';
-        option.style.opacity = '1';
-        option.style.transform = 'translateX(0)';
-    }, 100);
-});
-
-updateSlidePosition();
+        document.querySelectorAll('.option-label').forEach((option, index) => {
+            option.style.opacity = '0';
+            option.style.transform = 'translateX(20px)';
+            setTimeout(() => {
+                option.style.transition = 'all 0.3s ease';
+                option.style.transitionDelay = (index * 0.05) + 's';
+                option.style.opacity = '1';
+                option.style.transform = 'translateX(0)';
+            }, 100);
+        });
     </script>
 </body>
 </html>

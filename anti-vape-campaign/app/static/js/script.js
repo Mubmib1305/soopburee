@@ -59,16 +59,15 @@ class AnatomyController {
     }
 }
 
-// Messages Page Controller
-// Messages Page Controller - แก้ไขให้เลื่อนจากล่างสุดขึ้นบนสุดแบบสมบูรณ์
 class MessagesController {
     constructor() {
         this.scrollContainer = document.getElementById('scrollMessages');
         this.totalMessages = document.getElementById('totalMessages');
         this.messagesWrapper = document.querySelector('.messages-wrapper');
         this.messages = [];
-        this.isScrolling = false;
-        this.animationId = null;
+        this.currentMessageIndex = 0;
+        this.messageChangeInterval = 5000;
+        this.messageTimer = null;
         
         // โหลดฟอนต์ Prompt แบบโปรแกรม
         this.loadPromptFont();
@@ -94,112 +93,104 @@ class MessagesController {
 
     async fetchAndUpdate() {
         const data = await fetchData();
-        this.messages = data.messages || [];
-        this.updateMessages();
+        const newMessages = data.messages || [];
+        
+        if (JSON.stringify(this.messages) !== JSON.stringify(newMessages)) {
+            this.messages = newMessages;
+
+            this.resetMessageDisplay();
+        }
+        
         this.updateCounter();
     }
 
-    updateMessages() {
-        // สลับลำดับข้อความให้อันใหม่อยู่ด้านล่าง
-        const reversedMessages = [...this.messages].reverse();
-        
-        // ถ้าไม่มีข้อความเลย ให้สร้างข้อความจำลอง 1 อัน
-        let messageElements;
-        if (reversedMessages.length === 0) {
-            messageElements = `<div class="message-item" style="font-family: 'Prompt', sans-serif !important; font-weight: 200;">ยังไม่มีข้อความ</div>`;
-        } else {
-            messageElements = reversedMessages
-                .map(msg => `<div class="message-item" style="font-family: 'Prompt', sans-serif !important; font-weight: 200;">${msg.content}</div>`)
-                .join('');
+    resetMessageDisplay() {
+        if (this.messageTimer) {
+            clearInterval(this.messageTimer);
+            this.messageTimer = null;
         }
+
+        this.currentMessageIndex = 0;
         
-        this.scrollContainer.innerHTML = messageElements;
-        
-        // ตั้งค่า CSS เพื่อให้ข้อความเริ่มจากล่างสุดของหน้าจอ
-        this.scrollContainer.style.position = 'absolute';
-        this.scrollContainer.style.bottom = '0';
-        this.scrollContainer.style.width = '100%';
-        this.scrollContainer.style.display = 'flex';
-        this.scrollContainer.style.flexDirection = 'column';
-        this.scrollContainer.style.fontFamily = "'Prompt', sans-serif";
-        
-        // รีเซ็ตการเลื่อน
-        this.scrollContainer.style.transform = 'translateY(0)';
-        
-        // หยุดอนิเมชันเดิม (ถ้ามี) ก่อนเริ่มใหม่
-        if (this.isScrolling) {
-            cancelAnimationFrame(this.animationId);
+        this.displayCurrentMessage();
+
+        if (this.messages.length > 1) {
+            this.messageTimer = setInterval(() => {
+                this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
+                this.displayCurrentMessage();
+            }, this.messageChangeInterval);
         }
-        
-        // เริ่มการเลื่อนใหม่
-        setTimeout(() => this.startScrolling(), 100); // รอให้ DOM อัปเดตก่อนเริ่มเลื่อน
     }
 
-    startScrolling() {
-        if (!this.scrollContainer) return;
+    displayCurrentMessage() {
+
+        if (this.messages.length === 0) {
+            this.scrollContainer.innerHTML = `
+                <div class="message-item" style="
+                    font-family: 'Prompt', sans-serif !important; 
+                    font-weight: 200;
+                    font-size: 24px;
+                    text-align: center;
+                    padding: 20px;
+                    opacity: 0;
+                    animation: fadeIn 1s ease forwards;
+                ">ยังไม่มีข้อความ</div>
+            `;
+            return;
+        }
+
+        const currentMessage = this.messages[this.currentMessageIndex];
+        const senderName = currentMessage.sender || 'ไม่ระบุชื่อ';
         
-        this.isScrolling = true;
-        
-        // ความสูงของพื้นที่แสดงผล
-        const viewportHeight = this.messagesWrapper.clientHeight;
-        
-        // ความสูงของข้อความทั้งหมด
-        const messagesHeight = this.scrollContainer.clientHeight;
-        
-        // คำนวณระยะทางการเลื่อนทั้งหมด (ข้อความล่างสุดจะต้องเลื่อนขึ้นไปพ้นขอบบนของพื้นที่แสดงผล)
-        let totalScrollDistance;
-        
-        // ถ้าความสูงข้อความน้อยกว่าความสูงหน้าจอ ให้เลื่อนแบบพอดี
-        if (messagesHeight <= viewportHeight) {
-            totalScrollDistance = viewportHeight + messagesHeight;
-        } else {
-            totalScrollDistance = messagesHeight;
+        this.scrollContainer.innerHTML = `
+            <div class="message-container" style="
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                max-width: 80%;
+                opacity: 0;
+                animation: fadeIn 1s ease forwards;
+            ">
+                <div class="message-item" style="
+                    font-family: 'Prompt', sans-serif !important; 
+                    font-weight: 200;
+                    font-size: 24px;
+                    text-align: center;
+                    padding: 20px;
+                ">${currentMessage.content}</div>
+                <div class="message-sender" style="
+                    font-family: 'Prompt', sans-serif !important;
+                    font-weight: 200;
+                    font-size: 16px;
+                    text-align: right;
+                    padding-right: 20px;
+                    margin-top: 5px;
+                    color: rgba(255, 255, 255, 0.8);
+                ">- ${senderName}</div>
+            </div>
+        `;
+
+        if (!document.getElementById('message-animations')) {
+            const style = document.createElement('style');
+            style.id = 'message-animations';
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
         }
         
-        // จุดเริ่มต้นการเลื่อน
-        let startPosition = 0;
-        
-        // ความเร็วในการเลื่อน (พิกเซลต่อเฟรม)
-        const scrollSpeed = 0.5;
-        
-        // ระยะเวลาในการหยุดพักที่จุดเริ่มต้น (มิลลิวินาที)
-        const pauseDuration = 2000;
-        
-        // เวลาล่าสุดที่รีเซ็ตการเลื่อน
-        let lastResetTime = 0;
-        // สถานะการพัก
-        let isPaused = false;
-        
-        const animate = (timestamp) => {
-            // ถ้ากำลังพัก ตรวจสอบว่าพักครบเวลาหรือยัง
-            if (isPaused) {
-                if (timestamp - lastResetTime >= pauseDuration) {
-                    isPaused = false;
-                }
-            } else {
-                // เพิ่มตำแหน่งการเลื่อน
-                startPosition += scrollSpeed;
-                
-                // เมื่อเลื่อนจนครบระยะทางทั้งหมด รีเซ็ตกลับไปจุดเริ่มต้น
-                if (startPosition >= totalScrollDistance) {
-                    startPosition = 0;
-                    lastResetTime = timestamp;
-                    isPaused = true; // เริ่มพักเมื่อเริ่มใหม่
-                }
-                
-                // อัปเดตตำแหน่งการเลื่อน
-                this.scrollContainer.style.transform = `translateY(-${startPosition}px)`;
-            }
-            
-            // วนลูปอนิเมชัน
-            this.animationId = requestAnimationFrame(animate);
-        };
-        
-        // เริ่มอนิเมชัน
-        this.animationId = requestAnimationFrame(animate);
-        
-        // แสดงข้อมูลเพื่อการดีบัก
-        console.log(`Scroll Debug - Viewport Height: ${viewportHeight}px, Messages Height: ${messagesHeight}px, Total Scroll Distance: ${totalScrollDistance}px`);
+        this.scrollContainer.style.position = 'absolute';
+        this.scrollContainer.style.top = '50%';
+        this.scrollContainer.style.left = '50%';
+        this.scrollContainer.style.transform = 'translate(-50%, -50%)';
+        this.scrollContainer.style.width = '100%';
+        this.scrollContainer.style.display = 'flex';
+        this.scrollContainer.style.justifyContent = 'center';
+        this.scrollContainer.style.alignItems = 'center';
+        this.scrollContainer.style.fontFamily = "'Prompt', sans-serif";
     }
 
     updateCounter() {
@@ -241,6 +232,8 @@ class EmojiController {
                     emoji.content.trim() !== '') {
                     newEmojis.push({
                         content: emoji.content.trim(),
+                        type: emoji.type || 'emoji',
+                        flower_id: emoji.flower_id || null,
                         timestamp: new Date(emoji.timestamp || Date.now())
                     });
                 }
@@ -309,7 +302,8 @@ class EmojiController {
                 index = 0;
             }
             
-            this.createBubbles(this.emojis[index].content);
+            const emoji = this.emojis[index];
+            this.createBubbles(emoji.content, emoji.type, emoji.flower_id);
             
             setTimeout(() => {
                 this.stopAllAnimations();
@@ -320,7 +314,7 @@ class EmojiController {
         showEmoji(0);
     }
 
-    createBubbles(emojiContent) {
+    createBubbles(emojiContent, emojiType, flowerId) {
         const grid = Array(this.gridSize).fill().map(() => 
             Array(this.gridSize).fill().map(() => ({
                 bubbles: 0,
@@ -347,7 +341,29 @@ class EmojiController {
 
             const bubble = document.createElement('div');
             bubble.className = 'emoji-bubble';
-            bubble.textContent = emojiContent;
+            
+            if (emojiType === 'flower' && flowerId) {
+                // สร้าง element รูปภาพสำหรับดอกไม้
+                const img = document.createElement('img');
+                if (flowerId === 1) {
+                    img.src = '/static/images/Flower_1.png'; 
+                    img.alt = 'ดอกกล้วยไม้';
+                } else if (flowerId === 2) {
+                    img.src = '/static/images/Flower_2.png';
+                    img.alt = 'ดอกเดหลี';
+                } else if (flowerId === 3) {
+                    img.src = '/static/images/Flower_3.png';
+                    img.alt = 'ดอกไอริส';
+                } else {
+                    img.src = '/static/images/Flower_1.png';
+                    img.alt = 'ดอกไม้';
+                }
+                img.style.width = '100%';
+                img.style.height = '100%';
+                bubble.appendChild(img);
+            } else {
+                bubble.textContent = emojiContent;
+            }
             
             const scale = 1 + Math.random() * 0.5;
             const duration = 1500 + Math.random() * 1000;
@@ -355,17 +371,32 @@ class EmojiController {
             const rotateEnd = -360 + Math.random() * 720;
             const pathControl1 = -30 + Math.random() * 60;
 
-            bubble.style.cssText = `
-                left: ${startX}%;
-                top: ${startY}%;
-                font-size: ${18 * scale}px;
-                animation-duration: ${duration}ms;
-                --rotate-start: ${rotateStart}deg;
-                --rotate-end: ${rotateEnd}deg;
-                --path-control1: ${pathControl1}px;
-                --random-scale: ${0.5 + Math.random() * 0.5};
-                opacity: 0;
-            `;
+            if (emojiType === 'flower') {
+                bubble.style.cssText = `
+                    left: ${startX}%;
+                    top: ${startY}%;
+                    width: ${30 * scale}px;
+                    height: ${30 * scale}px;
+                    animation-duration: ${duration}ms;
+                    --rotate-start: ${rotateStart}deg;
+                    --rotate-end: ${rotateEnd}deg;
+                    --path-control1: ${pathControl1}px;
+                    --random-scale: ${0.5 + Math.random() * 0.5};
+                    opacity: 0;
+                `;
+            } else {
+                bubble.style.cssText = `
+                    left: ${startX}%;
+                    top: ${startY}%;
+                    font-size: ${18 * scale}px;
+                    animation-duration: ${duration}ms;
+                    --rotate-start: ${rotateStart}deg;
+                    --rotate-end: ${rotateEnd}deg;
+                    --path-control1: ${pathControl1}px;
+                    --random-scale: ${0.5 + Math.random() * 0.5};
+                    opacity: 0;
+                `;
+            }
             
             this.emojiContainer.appendChild(bubble);
             
@@ -378,7 +409,7 @@ class EmojiController {
 
             grid[minRow][minCol].bubbles++;
         };
-
+        
         const initialBubblesPerCell = Math.ceil(this.bubbleCount / (this.gridSize * this.gridSize));
         for (let i = 0; i < this.gridSize; i++) {
             for (let j = 0; j < this.gridSize; j++) {
